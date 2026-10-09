@@ -1,0 +1,1166 @@
+{
+  "source": "mcp.mcd.cn query-meal-detail",
+  "storeCode": "1950526",
+  "fetchedAt": "2026-10-09",
+  "fixtureNote": "modification.values 压缩为 modificationSummary，该部分占原始响应约90%体积且与营养拆解无关；rounds 保留 round 级与 choice 级全部标量字段",
+  "dataAnomalies": {
+    "roundNameDuplicated": true,
+    "maxQuantityMinusOneMeansUnlimited": true,
+    "nutritionTableHasNoMatchingNamesForPortionSuffixedChoices": true
+  },
+  "details": [
+    {
+      "code": "9900005466",
+      "name": "巨无霸三件套",
+      "image": "https://menu-img.mcd.cn/pcm/prod/menu/20260824/product/MS_9900005466_600.png",
+      "supportModify": false,
+      "rounds": [
+        {
+          "id": 1,
+          "name": "新升级巨无霸",
+          "quantity": 1,
+          "maxQuantity": 1,
+          "minQuantity": 1,
+          "choices": [
+            {
+              "code": "1100",
+              "name": "巨无霸",
+              "quantity": 1,
+              "maxQuantity": -1,
+              "isDefault": 1,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[0-5] 巨无霸酱/吉士/生菜/酸黄瓜/洋葱粒"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "选择套餐内小食",
+          "quantity": 1,
+          "maxQuantity": 1,
+          "minQuantity": 1,
+          "choices": [
+            {
+              "code": "4810",
+              "name": "中薯条",
+              "quantity": 1,
+              "maxQuantity": -1,
+              "isDefault": 1,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "521983",
+              "name": "5块心形薯饼+韩式辣椒黄油风味酱",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1",
+              "supportModify": false
+            },
+            {
+              "code": "4820",
+              "name": "大薯条",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1.5",
+              "supportModify": false
+            },
+            {
+              "code": "4437",
+              "name": "小杯玉米杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "- ¥1.5",
+              "supportModify": false
+            },
+            {
+              "code": "4438",
+              "name": "大杯玉米杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1.5",
+              "supportModify": false
+            },
+            {
+              "code": "514782",
+              "name": "脆脆薯条",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1.5",
+              "supportModify": false
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "选择套餐内饮料",
+          "quantity": 1,
+          "maxQuantity": 1,
+          "minQuantity": 1,
+          "choices": [
+            {
+              "code": "3050",
+              "name": "可乐中杯",
+              "quantity": 1,
+              "maxQuantity": -1,
+              "isDefault": 1,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "521817",
+              "name": "【美汁源】“多汁柠柠”",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "515945",
+              "name": "热浓浓黑巧中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥11",
+              "supportModify": true,
+              "modificationSummary": "[0-1] 换燕麦奶"
+            },
+            {
+              "code": "3071",
+              "name": "无糖可口可乐中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3060",
+              "name": "雪碧中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "515281",
+              "name": "阳光柠檬红茶中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3755",
+              "name": "纯牛奶",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1",
+              "supportModify": false
+            },
+            {
+              "code": "507411",
+              "name": "麦咖啡™冰美式中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥9",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰 | [1-1] 不加/加"
+            },
+            {
+              "code": "520688",
+              "name": "大杯鲜萃咖啡",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1.5",
+              "supportModify": true,
+              "modificationSummary": "[0-2] 奶油球/白砂糖"
+            },
+            {
+              "code": "507368",
+              "name": "麦咖啡™热美式中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥9",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 不加/加"
+            },
+            {
+              "code": "507409",
+              "name": "麦咖啡™冰奶铁中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥11",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰 | [1-1] 不加/加"
+            },
+            {
+              "code": "515946",
+              "name": "冰浓浓黑巧中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥11",
+              "supportModify": true,
+              "modificationSummary": "[0-1] 换燕麦奶 | [1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "515954",
+              "name": "热浓浓燕麦黑巧中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥13",
+              "supportModify": false
+            },
+            {
+              "code": "515955",
+              "name": "冰浓浓燕麦黑巧中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥13",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3100",
+              "name": "可乐大杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥2",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3111",
+              "name": "无糖可口可乐大杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥2",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "515521",
+              "name": "大杯怡泉+C",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥3.5",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3110",
+              "name": "雪碧大杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥2",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "507328",
+              "name": "麦咖啡™热奶铁中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥11",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 不加/加"
+            },
+            {
+              "code": "2430",
+              "name": "【美汁源】“黄金橙橙”",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥3",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3505",
+              "name": "锡兰红茶",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0.5",
+              "supportModify": false
+            },
+            {
+              "code": "515282",
+              "name": "阳光柠檬红茶大杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥2",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "6362",
+              "name": "100%苹果汁",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1.5",
+              "supportModify": false
+            },
+            {
+              "code": "515520",
+              "name": "中杯怡泉+C",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1.5",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            }
+          ]
+        }
+      ],
+      "defaultChildItemNames": [
+        "巨无霸",
+        "中薯条",
+        "可乐中杯"
+      ],
+      "defaultChildItemCodes": [
+        "1100",
+        "4810",
+        "3050"
+      ],
+      "childItemNames": [
+        "巨无霸",
+        "中薯条",
+        "可乐中杯"
+      ],
+      "childItemCodes": [
+        "1100",
+        "4810",
+        "3050"
+      ]
+    },
+    {
+      "code": "9900000884",
+      "name": "酥酥多笋卷四件套",
+      "image": "https://menu-img.mcd.cn/pcm/prod/menu/20260824/product/MS_9900000884_600.png",
+      "supportModify": false,
+      "rounds": [
+        {
+          "id": 1,
+          "name": "选择汉堡",
+          "quantity": 1,
+          "maxQuantity": 1,
+          "minQuantity": 1,
+          "choices": [
+            {
+              "code": "521816",
+              "name": "酥酥多笋卷",
+              "quantity": 1,
+              "maxQuantity": -1,
+              "isDefault": 1,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[0-3] 生菜/红油麻香酱/酸辣笋丝"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "小食",
+          "quantity": 1,
+          "maxQuantity": 1,
+          "minQuantity": 1,
+          "choices": [
+            {
+              "code": "4810",
+              "name": "中薯条",
+              "quantity": 1,
+              "maxQuantity": -1,
+              "isDefault": 1,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "521986",
+              "name": "马苏里拉拉丝芝士条",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1.5",
+              "supportModify": false
+            },
+            {
+              "code": "521950",
+              "name": "蓝莓爆爆珠麦旋风",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥2",
+              "supportModify": false
+            },
+            {
+              "code": "521983",
+              "name": "5块心形薯饼+韩式辣椒黄油风味酱",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1",
+              "supportModify": false
+            },
+            {
+              "code": "521836",
+              "name": "柠檬脆脆麦旋风",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥2",
+              "supportModify": false
+            },
+            {
+              "code": "514782",
+              "name": "脆脆薯条",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1.5",
+              "supportModify": false
+            },
+            {
+              "code": "1217",
+              "name": "奥利奥麦旋风",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1",
+              "supportModify": false
+            },
+            {
+              "code": "4437",
+              "name": "小杯玉米杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "4438",
+              "name": "大杯玉米杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1.5",
+              "supportModify": false
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "小食",
+          "quantity": 1,
+          "maxQuantity": 1,
+          "minQuantity": 1,
+          "choices": [
+            {
+              "code": "515106",
+              "name": "麦乐鸡4块",
+              "quantity": 1,
+              "maxQuantity": -1,
+              "isDefault": 1,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "522008",
+              "name": "韩式烟熏芝士风味酱麦麦脆汁鸡-腿",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥6.5",
+              "supportModify": false
+            },
+            {
+              "code": "522009",
+              "name": "韩式烟熏芝士风味酱脆皮鸡柳",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥5.5",
+              "supportModify": false
+            },
+            {
+              "code": "522011",
+              "name": "韩式烟熏芝士风味酱甜辣酱鸡球",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥6.5",
+              "supportModify": false
+            },
+            {
+              "code": "520445",
+              "name": "薄皮焦香V翅",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥4",
+              "supportModify": false
+            },
+            {
+              "code": "521856",
+              "name": "4个韩式甜辣酱鸡球（山葵酱）",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥6.5",
+              "supportModify": false
+            },
+            {
+              "code": "521857",
+              "name": "蘸蘸脆皮鸡柳（山葵酱）",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥5.5",
+              "supportModify": false
+            },
+            {
+              "code": "521802",
+              "name": "韩式甜辣酱鸡块",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥3.5",
+              "supportModify": false
+            },
+            {
+              "code": "1700",
+              "name": "麦辣鸡翅2块",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥3",
+              "supportModify": false
+            },
+            {
+              "code": "505416",
+              "name": "麦麦脆汁鸡-琵琶腿",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥3.5",
+              "supportModify": false
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "饮料",
+          "quantity": 1,
+          "maxQuantity": 1,
+          "minQuantity": 1,
+          "choices": [
+            {
+              "code": "3050",
+              "name": "可乐中杯",
+              "quantity": 1,
+              "maxQuantity": -1,
+              "isDefault": 1,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "515946",
+              "name": "冰浓浓黑巧中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥11",
+              "supportModify": true,
+              "modificationSummary": "[0-1] 换燕麦奶 | [1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "507411",
+              "name": "麦咖啡™冰美式中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥9",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰 | [1-1] 不加/加"
+            },
+            {
+              "code": "521327",
+              "name": "鲜萃冰咖",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1.5",
+              "supportModify": false
+            },
+            {
+              "code": "520688",
+              "name": "大杯鲜萃咖啡",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1.5",
+              "supportModify": true,
+              "modificationSummary": "[0-2] 奶油球/白砂糖"
+            },
+            {
+              "code": "507368",
+              "name": "麦咖啡™热美式中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥9",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 不加/加"
+            },
+            {
+              "code": "507409",
+              "name": "麦咖啡™冰奶铁中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥11",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰 | [1-1] 不加/加"
+            },
+            {
+              "code": "515945",
+              "name": "热浓浓黑巧中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥11",
+              "supportModify": true,
+              "modificationSummary": "[0-1] 换燕麦奶"
+            },
+            {
+              "code": "515955",
+              "name": "冰浓浓燕麦黑巧中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥13",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "515954",
+              "name": "热浓浓燕麦黑巧中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥13",
+              "supportModify": false
+            },
+            {
+              "code": "507328",
+              "name": "麦咖啡™热奶铁中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥11",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 不加/加"
+            },
+            {
+              "code": "521328",
+              "name": "可乐麦炫酷",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥3.5",
+              "supportModify": false
+            },
+            {
+              "code": "521335",
+              "name": "雪碧麦炫酷",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥3.5",
+              "supportModify": false
+            },
+            {
+              "code": "521336",
+              "name": "怡泉+C麦炫酷",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥5",
+              "supportModify": false
+            },
+            {
+              "code": "521329",
+              "name": "无糖可乐麦炫酷",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥3.5",
+              "supportModify": false
+            },
+            {
+              "code": "3071",
+              "name": "无糖可口可乐中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3100",
+              "name": "可乐大杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥2",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3111",
+              "name": "无糖可口可乐大杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥2",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "521817",
+              "name": "【美汁源】“多汁柠柠”",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥2",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "2430",
+              "name": "【美汁源】“黄金橙橙”",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥3",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "515521",
+              "name": "大杯怡泉+C",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥3.5",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3110",
+              "name": "雪碧大杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥2",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "515282",
+              "name": "阳光柠檬红茶大杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥2",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "515520",
+              "name": "中杯怡泉+C",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1.5",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3060",
+              "name": "雪碧中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "515281",
+              "name": "阳光柠檬红茶中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3505",
+              "name": "锡兰红茶",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "3755",
+              "name": "纯牛奶",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1",
+              "supportModify": false
+            },
+            {
+              "code": "6362",
+              "name": "100%苹果汁",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥1.5",
+              "supportModify": false
+            }
+          ]
+        }
+      ],
+      "defaultChildItemNames": [
+        "酥酥多笋卷",
+        "中薯条",
+        "麦乐鸡4块",
+        "可乐中杯"
+      ],
+      "defaultChildItemCodes": [
+        "521816",
+        "4810",
+        "515106",
+        "3050"
+      ],
+      "childItemNames": [
+        "酥酥多笋卷",
+        "中薯条",
+        "麦乐鸡4块",
+        "可乐中杯"
+      ],
+      "childItemCodes": [
+        "521816",
+        "4810",
+        "515106",
+        "3050"
+      ]
+    },
+    {
+      "code": "9900013304",
+      "name": "人气经典随心配",
+      "image": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900013304_600.png",
+      "supportModify": false,
+      "rounds": [
+        {
+          "id": 1,
+          "name": "蓝区",
+          "quantity": 1,
+          "maxQuantity": 1,
+          "minQuantity": 1,
+          "choices": [
+            {
+              "code": "1120",
+              "name": "双层吉士汉堡",
+              "quantity": 1,
+              "maxQuantity": -1,
+              "isDefault": 1,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[0-5] 吉士/酸黄瓜/洋葱粒/番茄酱/芥末酱"
+            },
+            {
+              "code": "521316",
+              "name": "高达吉士双牛堡",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "- ¥1",
+              "supportModify": true,
+              "modificationSummary": "[0-5] 酸黄瓜/洋葱粒/番茄酱/芥末酱/高达干酪片"
+            },
+            {
+              "code": "1600",
+              "name": "麦香鱼",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[0-2] 麦香鱼酱/吉士"
+            },
+            {
+              "code": "521156",
+              "name": "那么大鸡排（椒盐风味）",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "- ¥1",
+              "supportModify": false
+            },
+            {
+              "code": "521816",
+              "name": "酥酥多笋卷",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "- ¥1",
+              "supportModify": true,
+              "modificationSummary": "[0-3] 生菜/红油麻香酱/酸辣笋丝"
+            },
+            {
+              "code": "1401",
+              "name": "麦乐鸡5块",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "- ¥1",
+              "supportModify": false
+            },
+            {
+              "code": "1450",
+              "name": "麦香鸡",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "- ¥1",
+              "supportModify": true,
+              "modificationSummary": "[0-2] 麦香鸡酱/生菜"
+            },
+            {
+              "code": "4800",
+              "name": "小薯条",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "- ¥1",
+              "supportModify": false
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "粉区",
+          "quantity": 1,
+          "maxQuantity": 1,
+          "minQuantity": 1,
+          "choices": [
+            {
+              "code": "521328",
+              "name": "可乐麦炫酷",
+              "quantity": 1,
+              "maxQuantity": -1,
+              "isDefault": 1,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "515281",
+              "name": "阳光柠檬红茶中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3050",
+              "name": "可乐中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "521336",
+              "name": "怡泉+C麦炫酷",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "4437",
+              "name": "小杯玉米杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "4106",
+              "name": "香芋派",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "4420",
+              "name": "迷你草莓新地",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "4422",
+              "name": "迷你朱古力新地",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "521327",
+              "name": "鲜萃冰咖",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "4105",
+              "name": "菠萝派",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "521335",
+              "name": "雪碧麦炫酷",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "521329",
+              "name": "无糖可乐麦炫酷",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "3505",
+              "name": "锡兰红茶",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": false
+            },
+            {
+              "code": "515520",
+              "name": "中杯怡泉+C",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3060",
+              "name": "雪碧中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            },
+            {
+              "code": "3071",
+              "name": "无糖可口可乐中杯",
+              "quantity": 0,
+              "maxQuantity": -1,
+              "isDefault": 0,
+              "diffPrice": "+ ¥0",
+              "supportModify": true,
+              "modificationSummary": "[1-1] 标准/去冰/多冰/少冰"
+            }
+          ]
+        }
+      ],
+      "defaultChildItemNames": [
+        "双层吉士汉堡",
+        "可乐麦炫酷"
+      ],
+      "defaultChildItemCodes": [
+        "1120",
+        "521328"
+      ],
+      "childItemNames": [
+        "双层吉士汉堡",
+        "可乐麦炫酷"
+      ],
+      "childItemCodes": [
+        "1120",
+        "521328"
+      ]
+    }
+  ]
+}

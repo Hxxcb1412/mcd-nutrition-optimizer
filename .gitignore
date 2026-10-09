@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.env
+mcp.json
+
+# 抓取过程的中间产物，仅本地保留用于复现，不进仓库
+tests/fixtures/_raw/
