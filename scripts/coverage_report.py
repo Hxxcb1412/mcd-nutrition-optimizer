@@ -30,7 +30,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from combo_resolver import (  # noqa: E402
-    MatchStatus,
     build_nutrition_index,
     normalize,
     summarize_combo,
