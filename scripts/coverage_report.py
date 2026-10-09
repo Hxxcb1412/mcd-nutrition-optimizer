@@ -18,6 +18,7 @@
 运行：
     python scripts/coverage_report.py
     python scripts/coverage_report.py --menu path/to/menu.json
+    python scripts/coverage_report.py --json
 """
 
 from __future__ import annotations
