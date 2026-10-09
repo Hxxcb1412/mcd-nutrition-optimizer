@@ -6,6 +6,8 @@
 
 **只读工具，不下单不领券不改账户。相同输入永远得到相同输出，每个数字都能复现。**
 
+![License](https://img.shields.io/badge/license-MIT-green) ![Python](https://img.shields.io/badge/python-3.9%2B-blue) ![MCP](https://img.shields.io/badge/MCP-read--only-orange) ![Tests](https://img.shields.io/badge/tests-42%20passed-brightgreen)
+
 ---
 
 ## 它解决什么问题
