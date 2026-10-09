@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麦麦营养求解器 · 演示</title>
+<style>
+:root{
+  --bg:#f7f5f0;--surface:#fff;--ink:#1c1917;--ink2:#57534e;--ink3:#8a8378;
+  --line:#e7e2d9;--red:#d9291c;--red-d:#a81e14;--amber:#b45309;--green:#0f7a4a;
+  --mono:ui-monospace,'SFMono-Regular','Cascadia Code',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--ink);line-height:1.65;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  padding:0 20px 72px;
+}
+.wrap{max-width:880px;margin:0 auto}
+header{padding:56px 0 36px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--red);font-weight:600;text-transform:uppercase}
+h1{font-size:34px;font-weight:650;letter-spacing:-.02em;margin:12px 0 10px}
+.lede{font-size:17px;color:var(--ink2);max-width:62ch}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.badge{font-size:12px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink2)}
+.badge.solid{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+section{padding:40px 0;border-bottom:1px solid var(--line)}
+h2{font-size:14px;letter-spacing:.1em;color:var(--ink3);font-weight:600;text-transform:uppercase;margin-bottom:6px}
+h3{font-size:19px;font-weight:600;margin-bottom:14px;letter-spacing:-.01em}
+p.note{font-size:14px;color:var(--ink2);margin-bottom:18px;max-width:70ch}
+.chat{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.msg{max-width:76%;padding:13px 17px;border-radius:14px;font-size:15px;white-space:pre-wrap;line-height:1.6}
+.msg.user{align-self:flex-end;background:var(--red);color:#fff;border-bottom-right-radius:4px}
+.msg.bot{align-self:flex-start;background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg .tag{display:block;font-size:11px;letter-spacing:.08em;opacity:.6;margin-bottom:5px;text-transform:uppercase}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:14px}
+.card.miss{background:#fef6f5;border-color:#f5c6c2}
+.rank{font-size:11px;font-weight:700;color:var(--red);letter-spacing:.1em}
+.dish{font-size:18px;font-weight:600;margin:6px 0 2px;letter-spacing:-.01em}
+.macro{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:2px;margin:16px 0 14px}
+.macro div{background:#faf8f4;border-radius:9px;padding:10px 8px;text-align:center}
+.macro dt{font-size:11px;color:var(--ink3);margin-bottom:3px}
+.macro dd{font-size:17px;font-weight:650;font-family:var(--mono)}
+.macro dd small{font-size:11px;font-weight:400;color:var(--ink3);margin-left:1px}
+.items{font-size:12px;color:var(--ink3);border-top:1px dashed var(--line);padding-top:11px;font-family:var(--mono)}
+.refusal{background:#fff;border:1px solid #f5c6c2;border-left:3px solid var(--red);border-radius:8px;padding:15px 17px;margin-top:14px}
+.refusal h4{font-size:14px;color:var(--red);margin-bottom:7px}
+.refusal p{font-size:14px;color:var(--ink2)}
+table{width:100%;border-collapse:collapse;font-size:14px;background:var(--surface);border-radius:12px;overflow:hidden}
+th{text-align:left;font-size:11px;letter-spacing:.08em;color:var(--ink3);font-weight:600;padding:11px 13px;background:#faf8f4;text-transform:uppercase}
+td{padding:11px 13px;border-top:1px solid var(--line)}
+td.num{font-family:var(--mono);text-align:right;white-space:nowrap}
+.tag-pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600}
+.ok{background:#e8f5ee;color:var(--green)}
+.bad{background:#fdecea;color:var(--red-d)}
+.miss-pill{background:#fdf0e6;color:var(--amber)}
+.bar{height:7px;background:#f0ece4;border-radius:4px;overflow:hidden;margin:5px 0}
+.bar i{display:block;height:100%;background:var(--red);border-radius:4px}
+.cover-num{font-size:52px;font-weight:700;font-family:var(--mono);letter-spacing:-.03em;line-height:1;color:var(--red)}
+.cover-num small{font-size:22px;color:var(--ink3)}
+.layers{display:flex;flex-direction:column;gap:11px;margin:22px 0}
+.layer{display:flex;align-items:center;gap:14px}
+.layer .lb{width:118px;font-size:13px;color:var(--ink2);flex-shrink:0}
+.layer .lb{flex-shrink:0}
+.layer .track{flex:1;height:22px;background:#f0ece4;border-radius:5px;overflow:hidden}
+.layer .track i{display:block;height:100%;background:var(--red);opacity:.85;border-radius:5px}
+.layer .lv{font-family:var(--mono);font-size:13px;font-weight:600;width:96px;text-align:right}
+.note-box{background:#fdf8ee;border:1px solid #f0dcc0;border-radius:10px;padding:16px 18px;font-size:14px;color:var(--ink2);margin-top:16px}
+.note-box strong{color:var(--ink)}
+footer{padding:36px 0 0;font-size:13px;color:var(--ink3);line-height:1.8}
+footer code{font-family:var(--mono);background:#f0ece4;padding:2px 6px;border-radius:4px;font-size:12px}
+.star{margin:24px 0;padding:22px 26px;background:var(--surface);border:1px solid var(--line);border-radius:14px;text-align:center}
+.star p{font-size:15px;color:var(--ink2);margin-bottom:12px}
+.star a{display:inline-block;background:var(--red);color:#fff;text-decoration:none;padding:9px 20px;border-radius:8px;font-size:14px;font-weight:600}
+.star a:hover{background:var(--red-d)}
+@media(max-width:640px){
+  h1{font-size:27px}.msg{max-width:92%}.macro{grid-template-columns:repeat(3,1fr)}
+  .layer .lb{width:86px;font-size:12px}.layer .lv{width:74px;font-size:12px}
+  .cover-num{font-size:42px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">mcd-nutrition-optimizer</div>
+  <h1>你说「想吃得清淡点」，<br>它算出麦当劳 158 款餐品里最适合的那一餐。</h1>
+  <p class="lede">基于麦当劳官方 MCP 数据的确定性多目标求解。相同输入永远得到相同输出，每个数字都能用 <code>smoke_test.py</code> 复现。</p>
+  <div class="badges">
+    <span class="badge solid">只读工具 · 不下单不领券</span>
+    <span class="badge">158 条官方营养数据</span>
+    <span class="badge">确定性求解</span>
+    <span class="badge">20 项测试</span>
+  </div>
+</header>
+
+<section>
+  <h2>场景一 · 模糊偏好</h2>
+  <h3>「我想吃得清淡点」</h3>
+  <p class="note">用户说不出钠是多少毫克，但能说「清淡」。Skill 先把口语偏好翻译成数值约束，再求解。</p>
+  <div class="chat">
+    <div class="msg user">我想吃得清淡点</div>
+    <div class="msg bot"><span class="tag">Skill</span>我理解为「钠不超过 500mg、热量不超过 600 大卡」。这样安排可以吗？</div>
+  </div>
+  <div class="card">
+    <div class="rank">方案 1 · 正餐优先 → 钠升序</div>
+    <div class="dish">冰美式小杯 + 可乐大杯 + 纯牛奶（盒装）</div>
+    <dl class="macro">
+      <div><dt>热量</dt><dd>363<small>kcal</small></dd></div>
+      <div><dt>蛋白质</dt><dd>8<small>g</small></dd></div>
+      <div><dt>钠</dt><dd>73<small>mg</small></dd></div>
+      <div><dt>脂肪</dt><dd>7<small>g</small></dd></div>
+      <div><dt>钙</dt><dd>237<small>mg</small></dd></div>
+    </dl>
+    <div class="items">冰美式小杯 10kcal/1g蛋白/0mg钠　·　可乐大杯 224kcal/0g/15mg　·　纯牛奶 129kcal/7g/73mg</div>
+  </div>
+  <div class="note-box">
+    <strong>为什么不是两杯红茶？</strong>纯钠优先会收敛到「川宁伯爵红茶」（2kcal/0mg钠）——数学最优，营养上无意义。所以排序是<strong>正餐优先 → 钠升序 → 热量升序</strong>。这是实测踩过的坑。
+  </div>
+</section>
+
+<section>
+  <h2>场景二 · 硬约束</h2>
+  <h3>「热量≤600、蛋白≥25g」</h3>
+  <p class="note">蛋白质是硬约束而非软目标——不满足就淘汰，不只是排序靠后。</p>
+  <div class="card">
+    <div class="rank">方案 1 · 达成蛋白目标</div>
+    <div class="dish">优品豆浆大杯 + 冰牛奶中杯 + 大杯玉米杯</div>
+    <dl class="macro">
+      <div><dt>热量</dt><dd>513<small>kcal</small></dd></div>
+      <div><dt>蛋白质</dt><dd>25<small>g</small></dd></div>
+      <div><dt>钠</dt><dd>173<small>mg</small></dd></div>
+      <div><dt>脂肪</dt><dd>16<small>g</small></dd></div>
+      <div><dt>钙</dt><dd>437<small>mg</small></dd></div>
+    </dl>
+    <div class="items">优品豆浆大杯 202kcal/8g蛋白/43mg钠　·　冰牛奶中杯 224kcal/13g/128mg　·　大杯玉米杯 87kcal/4g/2mg</div>
+  </div>
+</section>
+
+<section>
+  <h2>套餐拆解</h2>
+  <h3>「巨无霸三件套一共多少大卡」</h3>
+  <p class="note">套餐本身不是营养条目。用 <code>query-meal-detail</code> 拿选配轮次，展开子项逐个匹配营养表后求和。</p>
+  <table>
+    <thead><tr><th>套餐</th><th style="text-align:right">热量</th><th style="text-align:right">蛋白</th><th style="text-align:right">钠</th><th style="text-align:right">状态</th></tr></thead>
+    <tbody id="combo-rows"></tbody>
+  </table>
+  <div class="refusal">
+    <h4>第三个套餐为什么不给数字？</h4>
+    <p>「可乐麦炫酷」不在官方营养表里。若强行求和会漏掉这一项，热量会明显低估——那比不给数字更糟。所以它<strong>拒绝输出部分和</strong>，并明确告诉你缺了什么。</p>
+  </div>
+</section>
+
+<section>
+  <h2>数据诚实度</h2>
+  <h3>一份诚实的覆盖率体检</h3>
+  <p class="note">这不是查菜单比价，而是数据质量检查。大部分项目不会告诉你它的数据边界在哪。</p>
+  <div class="cover-num" id="cover-pct"></div>
+  <p class="note" style="margin-top:8px">128 个门店餐品中，只有 27 个能在官方营养表里找到。其余 101 个是官方尚未收录的新品。</p>
+  <div class="layers">
+    <div class="layer"><div class="lb">精确同名</div><div class="track"><i style="width:16.4%"></i></div><div class="lv">21 · 16.4%</div></div>
+    <div class="layer"><div class="lb">剥规格后缀</div><div class="track"><i style="width:20.3%"></i></div><div class="lv">26 · 20.3%</div></div>
+    <div class="layer"><div class="lb">括号归一化</div><div class="track"><i style="width:21.1%"></i></div><div class="lv">27 · 21.1%</div></div>
+    <div class="layer"><div class="lb">完全无数据</div><div class="track"><i style="width:78.9%;background:#c9c2b6"></i></div><div class="lv">101 · 78.9%</div></div>
+  </div>
+  <div class="note-box">
+    <strong>规格歧义不静默取第一个。</strong>菜单的「可乐」对应营养表的中杯/大杯/小杯三条，钠含量不同。工具会列出全部候选让你选杯型：<br><br>
+    <span style="font-family:var(--mono);font-size:13px">可乐 → 可乐中杯 / 可乐大杯 / 可乐小杯<br>雪碧 → 雪碧中杯 / 雪碧大杯 / 雪碧小杯</span>
+  </div>
+</section>
+
+<section>
+  <h2>三个被修掉的真实 bug</h2>
+  <h3>都是实测数据暴露的，不是测试假设</h3>
+  <div class="card">
+    <div class="rank">Bug 1 · 零值判定</div>
+    <div class="dish">无糖可乐差点以「0 大卡 2mg 钠」成为最优解</div>
+    <p class="note" style="margin:8px 0 0">原判据是「四个字段全为 0」，但无糖可乐的碳水字段是 <strong>1</strong> 而非 0，于是被判成真实数据。改为「热量与蛋白质同时为 0」——任何真实餐品都不可能既无热量又无蛋白质。</p>
+  </div>
+  <div class="card">
+    <div class="rank">Bug 2 · 排序策略</div>
+    <div class="dish">「清淡午餐」收敛到三样饮品</div>
+    <p class="note" style="margin:8px 0 0">纯钠优先时，最优解是「冰美式+可乐+纯牛奶」——钠最低但只有 8g 蛋白，本质是三样饮品。根因是低钠食物集中在奶品类，而正餐类钠普遍 500-1000mg。</p>
+  </div>
+  <div class="card">
+    <div class="rank">Bug 3 · 套餐匹配源</div>
+    <div class="dish">同一编码在不同工具里名字不同</div>
+    <p class="note" style="margin:8px 0 0">编码 <code>4810</code> 在 <code>query-meals</code> 叫「薯条」（匹配失败），在 <code>query-meal-detail</code> 叫「中薯条」（匹配成功）。菜单按商品聚合，营养表按规格展开，必须用后者。</p>
+  </div>
+</section>
+
+<section>
+  <h2>本地验证</h2>
+  <h3>三个脚本，不需要 MCP 连接</h3>
+  <p class="note">全部读 <code>tests/fixtures/</code> 下的实测数据。README 里的每个数字都能复现。</p>
+  <table>
+    <thead><tr><th>命令</th><th>作用</th></tr></thead>
+    <tbody>
+      <tr><td><code>python scripts/test_solver.py</code></td><td>单元测试，20 项</td></tr>
+      <tr><td><code>python scripts/smoke_test.py</code></td><td>真实数据基线，README 数字均可复现</td></tr>
+      <tr><td><code>python scripts/coverage_report.py</code></td><td>覆盖率体检，支持 <code>--json</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>边界</h2>
+  <h3>这个 Skill 不做什么</h3>
+  <table>
+    <thead><tr><th>不调用</th><th>原因</th></tr></thead>
+    <tbody>
+      <tr><td><code>create-order</code> / <code>cancel-order</code></td><td>真实下单产生费用，不代用户决策</td></tr>
+      <tr><td><code>mall-create-order</code> / <code>draw-lottery</code></td><td>扣减积分、消耗次数，涉及用户资产</td></tr>
+      <tr><td><code>auto-bind-coupons</code></td><td>不可逆领券，且会污染决策使结果不可复现</td></tr>
+      <tr><td><code>delivery-create-address</code></td><td>写入用户地址，涉及个人信息</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="star">
+  <p>觉得有用的话，点个 ⭐ Star 支持一下 —— 麦当劳程序员节创意开发大赛排名看 Star。</p>
+  <a href="https://github.com/Hxxcb1412/mcd-nutrition-optimizer" target="_blank" rel="noopener">★ Star on GitHub</a>
+</div>
+
+<footer>
+  全部数据来自 2026-10-09 对<code>https://mcp.mcd.cn</code> 的实测抓取，测试门店 <code>1950526</code>（北京新东安二号餐厅）。<br>
+  本项目为参赛作品，非麦当劳官方产品。输出仅供参考，不构成医疗或营养建议；餐品信息、价格及供应状态以麦当劳官方渠道实时结果为准。
+</footer>
+
+</div>
+<script>
+const DATA = {"clean":[{"names":["冰美式小杯","可乐大杯","纯牛奶（盒装）"],"kcal":363,"protein":8,"sodium":73,"fat":7,"carb":52,"calcium":237,"items":[{"n":"冰美式小杯","kcal":10,"p":1,"na":0},{"n":"可乐大杯","kcal":224,"p":0,"na":15},{"n":"纯牛奶（盒装）","kcal":129,"p":7,"na":73}]},{"names":["冰美式中杯","可乐大杯","纯牛奶（盒装）"],"kcal":366,"protein":8,"sodium":73,"fat":7,"carb":52,"calcium":237,"items":[{"n":"冰美式中杯","kcal":13,"p":1,"na":0},{"n":"可乐大杯","kcal":224,"p":0,"na":15},{"n":"纯牛奶（盒装）","kcal":129,"p":7,"na":73}]},{"names":["冰美式大杯","可乐大杯","纯牛奶（盒装）"],"kcal":367,"protein":8,"sodium":73,"fat":7,"carb":53,"calcium":237,"items":[{"n":"冰美式大杯","kcal":18,"p":1,"na":0},{"n":"可乐大杯","kcal":224,"p":0,"na":15},{"n":"纯牛奶（盒装）","kcal":129,"p":7,"na":73}]},{"names":["大杯怡泉+C","可乐中杯","纯牛奶（盒装）"],"kcal":410,"protein":8,"sodium":73,"fat":7,"carb":67,"calcium":241,"items":[{"n":"大杯怡泉+C","kcal":168,"p":0,"na":15},{"n":"可乐中杯","kcal":147,"p":0,"na":10},{"n":"纯牛奶（盒装）","kcal":129,"p":7,"na":73}]},{"names":["大杯怡泉+C","可乐小杯","纯牛奶（盒装）"],"kcal":402,"protein":8,"sodium":73,"fat":7,"carb":64,"calcium":241,"items":[{"n":"大杯怡泉+C","kcal":168,"p":0,"na":15},{"n":"可乐小杯","kcal":107,"p":0,"na":7},{"n":"纯牛奶（盒装）","kcal":129,"p":7,"na":73}]}],"protein":[{"names":["优品豆浆大杯","冰牛奶中杯","大杯玉米杯"],"kcal":513,"protein":25,"sodium":173,"fat":16,"carb":64,"calcium":437,"items":[{"n":"优品豆浆大杯","kcal":202,"p":8,"na":43},{"n":"冰牛奶中杯","kcal":224,"p":13,"na":128},{"n":"大杯玉米杯","kcal":87,"p":4,"na":2}]},{"names":["优品豆浆大杯","大杯玉米杯","热牛奶大杯"],"kcal":529,"protein":25,"sodium":182,"fat":16,"carb":66,"calcium":466,"items":[{"n":"优品豆浆大杯","kcal":202,"p":8,"na":43},{"n":"大杯玉米杯","kcal":87,"p":4,"na":2},{"n":"热牛奶大杯","kcal":240,"p":13,"na":137}]},{"names":["优品豆浆小杯","冰牛奶大杯","大杯玉米杯"],"kcal":507,"protein":25,"sodium":188,"fat":17,"carb":60,"calcium":512,"items":[{"n":"优品豆浆小杯","kcal":151,"p":6,"na":32},{"n":"冰牛奶大杯","kcal":269,"p":15,"na":154},{"n":"大杯玉米杯","kcal":87,"p":4,"na":2}]}],"combos":[{"code":"9900005466","name":"巨无霸三件套","complete":true,"missing":[],"kcal":949,"protein":31,"sodium":1126},{"code":"9900000884","name":"酥酥多笋卷四件套","complete":true,"missing":[],"kcal":948,"protein":28,"sodium":1546},{"code":"9900013304","name":"人气经典随心配","complete":false,"missing":["可乐麦炫酷"],"kcal":null,"protein":null,"sodium":null}],"coverage":{"fullPct":21.1,"total":128,"matched":27,"misses":101}};
+const C = DATA.combos.map(function(x){
+  var status = x.complete
+    ? '<span class="tag-pill ok">完整</span>'
+    : '<span class="tag-pill bad">拒绝输出</span>';
+  var nums = x.complete
+    ? '<td class="num">'+x.kcal+' kcal</td><td class="num">'+x.protein+' g</td><td class="num">'+x.sodium+' mg</td>'
+    : '<td class="num" colspan="3" style="color:var(--ink3);text-align:right">缺「'+x.missing.join('、')+'」</td>';
+  return '<tr><td>'+x.name+'<div style="font-size:11px;color:var(--ink3);font-family:var(--mono)">'+x.code+'</div></td>'+nums+'<td style="text-align:right">'+status+'</td></tr>';
+}).join('');
+document.getElementById('combo-rows').innerHTML = C;
+document.getElementById('cover-pct').innerHTML = DATA.coverage.fullPct + '<small>%</small>';
+</script>
+</body>
+</html>

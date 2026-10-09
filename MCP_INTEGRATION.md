@@ -1,6 +1,6 @@
 # MCP 集成说明
 
-本项目只使用麦当劳 MCP Server 的**两个只读工具**，不调用任何会改动账户、
+本项目只使用麦当劳 MCP Server 的**三个只读工具**，不调用任何会改动账户、
 产生消费或消耗额度的接口。
 
 ## 接入信息
@@ -47,6 +47,39 @@ code、name、quantity、isDefault、diffPrice。
 
 **业务价值**：计算套餐总热量。这是菜单聚合与营养表规格维度之间的唯一桥梁——
 详见下文「为什么必须用这个工具的名称」。
+
+### 3. calculate-price（商品价格计算）
+
+**用途**：下单前的价格预演。求解器给出组合后，用它拿到服务端实际计算的
+应付金额，让用户在下单前看到真实数字。
+
+**入参**：`storeCode`、`orderType`、`beType`、`items[]`，
+每项含 `productCode`、`quantity`，可选 `couponId` / `couponCode`、
+`modification.values[]`、`roundList[]`。
+
+**返回字段（注意单位）**：
+
+| 字段 | 含义 | 单位 |
+|---|---|---|
+| `productOriginalPrice` / `productPrice` | 商品原价 / 现价 | 分 |
+| `deliveryPrice` | 运费 | 分 |
+| `packingPrice` | 打包费 | 分 |
+| `originalPrice` | 原价合计 | 分 |
+| `discount` | 优惠金额 | 分 |
+| `price` | 应付总价 | 分 |
+| `enjoyed.realDiscount` | 已享受优惠 | **元** |
+
+**两个单位陷阱**：
+
+1. `query-meals` 的 `currentPrice` 是**元**（字符串如 `"26.5"`），
+   而 `calculate-price` 各字段是**分**（整数如 `5050`），两者差 100 倍
+2. `calculate-price` 内部的 `enjoyed.realDiscount` / `enjoyable.realDiscount`
+   又是**元**，与其他分字段混用
+
+本项目若接入此工具，必须在唯一一处做单位归一化。
+
+**为什么不调用 `create-order`**：预演只提供信息，不代替用户决策。
+真实下单应由用户在被明确告知价格与后果后自行发起。
 
 ## 为什么套餐拆解必须用 meal-detail
 
