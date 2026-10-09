@@ -20,6 +20,7 @@ from nutrition_solver import (  # noqa: E402
     Constraint,
     NutritionItem,
     Solver,
+    _category_of,
 )
 
 FIXTURES = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
@@ -146,6 +147,12 @@ def test_solver_baseline() -> None:
     solver = Solver(_load_nutrition())
 
     # README：热量 ≤ 600、高蛋白 ≥ 25g
+    #
+    # 基线变更记录：初版是「优品豆浆大杯+冰牛奶中杯+大杯玉米杯」
+    # （513kcal / 蛋白 25g / 钠 173mg）。修好类别判定后（纯牛奶原被
+    # 误判为蛋白类），更多组合变得合法，排序选出了更合理的一组——
+    # 有主食配菜与蛋白类，是真的一餐，而旧解是三样饮品凑的。
+    # 钠从 173mg 升到 438mg 是真实代价，不掩盖。
     result = solver.solve(
         Constraint(max_kcal=600, target_protein=25, strict_protein=True),
         max_items=3,
@@ -153,20 +160,13 @@ def test_solver_baseline() -> None:
     )
     if result:
         combo = result[0]
+        check("高蛋白场景首解热量", round(combo.total_kcal), 443)
+        check("高蛋白场景首解蛋白", round(combo.total_protein), 25)
+        check("高蛋白场景首解钠", round(combo.total_sodium), 438)
         check(
-            "高蛋白场景首解热量",
-            round(combo.total_kcal),
-            513,
-        )
-        check(
-            "高蛋白场景首解蛋白",
-            round(combo.total_protein),
-            25,
-        )
-        check(
-            "高蛋白场景首解钠",
-            round(combo.total_sodium),
-            173,
+            "高蛋白首解含蛋白类餐品",
+            any(_category_of(i.product_name) == "蛋白" for i in combo.items),
+            True,
         )
     else:
         check("高蛋白场景有解", "no result", "1 combination")
