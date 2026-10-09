@@ -1,0 +1,66 @@
+{
+  "source": "mcp.mcd.cn query-nearby-stores",
+  "fetchedAt": "2026-10-09",
+  "city": "北京",
+  "keyword": "王府井",
+  "dataAnomalies": {
+    "businessStatusNotEqualOpen": "businessStatus:true 仅表示门店存在，不代表当前在营业时段内"
+  },
+  "stores": [
+    {
+      "storeCode": "1950526",
+      "storeName": "麦当劳北京新东安二号餐厅",
+      "address": "王府井大街138号新东安广场地下一层",
+      "distance": 146,
+      "businessStatus": true,
+      "businessStartTime": "08:00",
+      "businessEndTime": "22:00",
+      "beCode": "",
+      "reservation": true
+    },
+    {
+      "storeCode": "1950482",
+      "storeName": "麦当劳北京王府井东街(澳门中心)餐厅",
+      "address": "王府井大街东街8号",
+      "distance": 163,
+      "businessStatus": true,
+      "businessStartTime": "07:00",
+      "businessEndTime": "22:00",
+      "beCode": "",
+      "reservation": false
+    },
+    {
+      "storeCode": "1950087",
+      "storeName": "麦当劳北京灯市口餐厅",
+      "address": "灯市口大街33号",
+      "distance": 458,
+      "businessStatus": true,
+      "businessStartTime": "06:00",
+      "businessEndTime": "22:00",
+      "beCode": "",
+      "reservation": true
+    },
+    {
+      "storeCode": "1950514",
+      "storeName": "麦当劳北京东四南大街灯市口地铁餐厅",
+      "address": "东四南大街157号",
+      "distance": 543,
+      "businessStatus": true,
+      "businessStartTime": "07:00",
+      "businessEndTime": "22:00",
+      "beCode": "",
+      "reservation": true
+    },
+    {
+      "storeCode": "1950059",
+      "storeName": "麦当劳北京新王府井餐厅",
+      "address": "王府井大街200号北京工艺美术世界",
+      "distance": 544,
+      "businessStatus": true,
+      "businessStartTime": "06:00",
+      "businessEndTime": "22:00",
+      "beCode": "",
+      "reservation": true
+    }
+  ]
+}
