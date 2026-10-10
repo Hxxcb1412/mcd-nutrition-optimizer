@@ -114,11 +114,12 @@ references/data-notes.md 全部实测踩坑记录
 python scripts/test_solver.py              # 单元测试 19 项
 python scripts/test_child_nutrition.py     # 儿童模块 65 项
 python scripts/test_store_and_campaign.py  # 门店/券/活动 38 项
+python scripts/test_precheck.py            # 预检与钠账本 58 项
 python scripts/smoke_test.py               # 真实数据基线 24 项
 python scripts/coverage_report.py          # 覆盖率体检
 ```
 
-共 146 项断言，全部不需要 MCP 连接，直接读 `tests/fixtures/` 下的实测数据。
+共 204 项断言，全部不需要 MCP 连接，直接读 `tests/fixtures/` 下的实测数据。
 
 ---
 
