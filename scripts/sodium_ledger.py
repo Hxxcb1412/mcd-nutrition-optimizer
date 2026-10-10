@@ -80,6 +80,8 @@ class SodiumLedger:
 
     @property
     def usage_pct(self) -> float:
+        # 上限为 0 或负数时返回 0 而不是崩溃或返回 inf。
+        # 但此时 status() 会明确提示"上限设置有问题"，不掩盖异常。
         if self.limit_mg <= 0:
             return 0.0
         return self.total_sodium / self.limit_mg * 100
@@ -99,7 +101,16 @@ class SodiumLedger:
                 不接受用户口述的估值。
             kcal: 热量，同上。
             source: 数据来源标注。
+
+        Raises:
+            ValueError: 钠或热量为负。这两个值来自营养表，
+                负数意味着上游数据有问题，静默接受会让账本失真。
         """
+        if sodium_mg < 0 or kcal < 0:
+            raise ValueError(
+                f"「{label}」的钠({sodium_mg})与热量({kcal})不能为负，"
+                f"这说明上游数据异常，请先检查"
+            )
         self.entries.append(IntakeEntry(label, float(sodium_mg), float(kcal), source))
 
     def add_from_items(
@@ -118,6 +129,8 @@ class SodiumLedger:
 
     def status(self) -> str:
         """当前状态的客观描述。"""
+        if self.limit_mg <= 0:
+            return f"参考上限设置异常（{self.limit_mg:.0f}mg），无法判断"
         pct = self.usage_pct
         if pct >= 100:
             return f"已超过参考上限（{pct:.0f}%）"

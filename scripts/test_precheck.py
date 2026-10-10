@@ -181,6 +181,76 @@ def test_ledger_source_labelled() -> None:
     check("按实测数据累计", round(L.total_sodium), 1126)
 
 
+def test_invalid_quantity() -> None:
+    print("\n[非法数量必须被拦截]")
+    index = _index()
+
+    for bad in (-1, 0):
+        r = precheck(["中薯条"], index, quantities={"中薯条": bad})
+        check(f"数量 {bad} 合计为 None", r.computable_total(), None)
+        check(
+            f"数量 {bad} 判为无法计算",
+            r.confidence,
+            Confidence.UNCOMPUTABLE,
+        )
+        check(
+            f"数量 {bad} 给出原因",
+            "数量小于 1" in r.blocking_reason(),
+            True,
+        )
+
+    # 原因里应带上实际数值，便于定位
+    r = precheck(["中薯条"], index, quantities={"中薯条": -1})
+    check("原因含实际数值", "中薯条(-1)" in r.blocking_reason(), True)
+
+    # 渲染层不能出现「完整可信」却不给数字的矛盾
+    text = render(precheck(["中薯条"], index, quantities={"中薯条": -1}))
+    check("渲染结论为无法计算", "【结论】无法计算" in text, True)
+    check("渲染说明为何不给合计", "为什么不输出合计" in text, True)
+    check("渲染不含负热量", "-289" not in text, True)
+
+
+def test_invalid_quantity_among_valid() -> None:
+    print("\n[部分数量非法也要拦截]")
+    index = _index()
+    r = precheck(
+        ["巨无霸", "中薯条"], index, quantities={"中薯条": -1}
+    )
+    check("整体判为无法计算", r.confidence, Confidence.UNCOMPUTABLE)
+    check("不给部分合计", r.computable_total(), None)
+
+
+def test_ledger_rejects_negative() -> None:
+    print("\n[账本拒绝负数摄入]")
+    L = SodiumLedger()
+    try:
+        L.add("异常项", -500, 100)
+        check("负数应抛错", "no raise", "ValueError")
+    except ValueError as exc:
+        check("负数抛 ValueError", "不能为负" in str(exc), True)
+
+    try:
+        L.add("异常项", 100, -200)
+        check("负热量应抛错", "no raise", "ValueError")
+    except ValueError:
+        check("负热量抛 ValueError", True, True)
+
+    check("失败后账本未变", len(L.entries), 0)
+
+
+def test_ledger_invalid_limit() -> None:
+    print("\n[非法上限的处理]")
+    L = SodiumLedger(limit_mg=0)
+    L.add("x", 100)
+    check("limit=0 使用率不崩溃", L.usage_pct, 0.0)
+    check("limit=0 措辞明确", "设置异常" in L.status(), True)
+
+    L2 = SodiumLedger(limit_mg=-100)
+    L2.add("x", 100)
+    check("负 limit 不崩溃", L2.usage_pct, 0.0)
+    check("负 limit 措辞明确", "设置异常" in L2.status(), True)
+
+
 def main() -> int:
     print("=" * 58)
     print("预检与钠账本测试")
@@ -190,11 +260,15 @@ def main() -> int:
     test_all_unresolvable()
     test_zero_value_placeholder_classified()
     test_quantities()
+    test_invalid_quantity()
+    test_invalid_quantity_among_valid()
     test_empty_input()
     test_render_no_placeholder_leak()
     test_ledger_accumulate()
     test_ledger_over_limit()
     test_ledger_custom_limit()
+    test_ledger_rejects_negative()
+    test_ledger_invalid_limit()
     test_ledger_reset()
     test_ledger_empty_render()
     test_ledger_source_labelled()

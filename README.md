@@ -4,7 +4,7 @@
 
 基于麦当劳官方 MCP 实测数据的营养配餐 Skill。**每个数字都能复现，不估算、不填 0。**
 
-[![Star](https://img.shields.io/badge/star-%E7%82%B9%E8%AF%B7%E6%94%AF%E6%8C%81-yellow?style=for-the-badge)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer/blob/main/LICENSE) [![Tests](https://img.shields.io/badge/tests-185%20passed-brightgreen)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer)
+[![Star](https://img.shields.io/badge/star-%E7%82%B9%E8%AF%B7%E6%94%AF%E6%8C%81-yellow?style=for-the-badge)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer/blob/main/LICENSE) [![Tests](https://img.shields.io/badge/tests-204%20passed-brightgreen)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer)
 
 ---
 
@@ -94,7 +94,7 @@ open docs/demo.html                 # 完整演示
 
 # 跑测试验证每个数字
 python scripts/smoke_test.py        # 24 项，README 数字均可复现
-python scripts/test_precheck.py       # 39 项，预检与钠账本
+python scripts/test_precheck.py       # 58 项，预检/账本+边界
 python scripts/test_solver.py       # 19 项
 ```
 

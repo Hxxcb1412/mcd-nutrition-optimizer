@@ -86,6 +86,10 @@ class PrecheckResult:
     def confidence(self) -> str:
         if not self.items:
             return Confidence.UNCOMPUTABLE
+        # 数量非法时不能报「完整可信」——那样会与
+        # 「为什么不输出合计」自相矛盾。数据有错就是不可信。
+        if any(i.quantity < 1 for i in self.items):
+            return Confidence.UNCOMPUTABLE
         if not self.unresolved:
             return Confidence.FULL
         if not self.resolved:
@@ -100,6 +104,10 @@ class PrecheckResult:
         """
         if not self.items or self.unresolved:
             return None
+        # 数量非法时返回 None 而非算出负数热量。负热量在业务上毫无意义，
+        # 且会一路传到展示层变成「-289 kcal」这种荒谬结论。
+        if any(i.quantity < 1 for i in self.items):
+            return None
         keys = ("energy_kcal", "protein", "fat", "carbohydrate", "sodium", "calcium")
         return {
             k: sum((getattr(i.nutrition, k) or 0.0) * i.quantity for i in self.resolved)
@@ -108,10 +116,18 @@ class PrecheckResult:
 
     def blocking_reason(self) -> str:
         """阻止给出完整结论的原因说明。"""
-        if self.confidence is Confidence.FULL:
-            return ""
         if not self.items:
             return "方案为空，没有可检查的餐品"
+        # 数量非法必须先判断：这类情况现在也算 UNCOMPUTABLE，
+        # 若先判 confidence 会落到「没有营养数据」分支，提示会指向错误的原因。
+        bad_qty = [i for i in self.items if i.quantity < 1]
+        if bad_qty:
+            names = "、".join(
+                f"{i.name}({i.quantity})" for i in bad_qty
+            )
+            return f"方案中「{names}」的数量小于 1，无法计算合计"
+        if self.confidence is Confidence.FULL:
+            return ""
         if self.confidence is Confidence.UNCOMPUTABLE:
             names = "、".join(i.name for i in self.unresolved)
             return f"方案中「{names}」没有营养数据，无法给出结论"
@@ -244,18 +260,23 @@ def render(result: PrecheckResult) -> str:
                 add(f"          {item.reason}")
         add("")
 
-    if result.confidence is Confidence.FULL:
-        totals = result.computable_total()
-        if totals:
-            add("【可计算的完整合计】")
-            add(
-                f"  {totals['energy_kcal']:.0f} kcal ·"
-                f" 蛋白 {totals['protein']:.0f} g ·"
-                f" 脂肪 {totals['fat']:.0f} g ·"
-                f" 碳水 {totals['carbohydrate']:.0f} g ·"
-                f" 钠 {totals['sodium']:.0f} mg"
-            )
-            add("")
+    totals = result.computable_total()
+    if totals:
+        add("【可计算的完整合计】")
+        add(
+            f"  {totals['energy_kcal']:.0f} kcal ·"
+            f" 蛋白 {totals['protein']:.0f} g ·"
+            f" 脂肪 {totals['fat']:.0f} g ·"
+            f" 碳水 {totals['carbohydrate']:.0f} g ·"
+            f" 钠 {totals['sodium']:.0f} mg"
+        )
+        add("")
+    elif result.blocking_reason():
+        # 合计为 None 但有原因（数量非法等）——不能走 confidence 分支，
+        # 否则会显示「完整可信」却没有任何数字
+        add("【为什么不输出合计】")
+        add(f"  {result.blocking_reason()}")
+        add("")
     else:
         add("【为什么不输出合计】")
         add(f"  {result.blocking_reason()}")
