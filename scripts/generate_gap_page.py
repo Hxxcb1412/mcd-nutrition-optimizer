@@ -177,7 +177,8 @@ code{{background:#eeece8;padding:2px 6px;border-radius:4px;font-size:12.5px;font
 <div class="star">
   <p>这份数据花了我们大量实测时间。如果对你有用，点个 ⭐ Star 支持一下</p>
   <a class="cta" href="https://github.com/Hxxcb1412/mcd-nutrition-optimizer" target="_blank" rel="noopener">★ Star on GitHub</a>
-  <a class="cta" href="https://github.com/Hxxcb1412/mcd-nutrition-optimizer/blob/main/docs/child-nutrition.html" target="_blank" rel="noopener">儿童营养页</a>
+  <a class="cta" href="child-nutrition.html">儿童营养页</a>
+  <a class="cta" href="demo.html">完整演示</a>
 </div>
 
 <footer>
