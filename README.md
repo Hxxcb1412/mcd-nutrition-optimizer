@@ -4,7 +4,36 @@
 
 基于麦当劳官方 MCP 实测数据的营养配餐 Skill。**每个数字都能复现，不估算、不填 0。**
 
-[![Star](https://img.shields.io/badge/star-%E7%82%B9%E8%AF%B7%E6%94%AF%E6%8C%81-yellow?style=for-the-badge)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer/blob/main/LICENSE) [![Tests](https://img.shields.io/badge/tests-146%20passed-brightgreen)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer)
+[![Star](https://img.shields.io/badge/star-%E7%82%B9%E8%AF%B7%E6%94%AF%E6%8C%81-yellow?style=for-the-badge)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer/blob/main/LICENSE) [![Tests](https://img.shields.io/badge/tests-185%20passed-brightgreen)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer)
+
+---
+
+## 🔍 核心能力：下单前告诉你这份方案算不算得清
+
+用户准备下单时，先判断哪些营养结论算得出来。三种结论：
+
+| 结论 | 含义 | 行为 |
+|---|---|---|
+| 完整可信 | 全部餐品有营养数据 | 正常输出合计 |
+| **部分可信** | 部分能算 | **拒绝输出部分和** |
+| 无法计算 | 关键项缺失 | 直接说算不出，不估算 |
+
+```
+你：这个龙焰鸡腿堡三件套活动看着不错，帮我算算钠
+
+它：【部分可信】
+    [缺数据] 龙焰鸡腿堡三件套 —— 官方营养表未收录
+    [可算]   中薯条  289kcal · 钠 165mg
+    [可算]   可乐中杯 147kcal · 钠 0mg
+
+    为什么不输出合计：漏掉的三件套会让总热量被低估，
+    你以为这单更健康。实测活动新品的营养收录率是 0%。
+
+    如果想知道确切数字，请以麦当劳官方营养标示为准。
+```
+
+**两种缺失要分开说**：「纯悦」是**占位记录**（表里有，热量与蛋白同时为 0），
+「龙焰鸡腿堡」是**根本没收录**。前者是数据缺失，后者是营养表滞后于菜单。
 
 ---
 
@@ -64,7 +93,8 @@ open docs/data-gap-report.html      # 数据缺口报告
 open docs/demo.html                 # 完整演示
 
 # 跑测试验证每个数字
-python scripts/smoke_test.py        # 23 项，README 数字均可复现
+python scripts/smoke_test.py        # 24 项，README 数字均可复现
+python scripts/test_precheck.py       # 39 项，预检与钠账本
 python scripts/test_solver.py       # 19 项
 ```
 

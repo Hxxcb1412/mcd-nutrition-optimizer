@@ -76,10 +76,13 @@ scripts/
   campaign_gap.py        活动新品与营养表交叉分析
   order_gateway.py       下单安全网关，默认 dry-run
   coverage_report.py     门店营养覆盖率体检
+  precheck.py            下单前数据可信度预检
+  sodium_ledger.py       钠累计账本（附带能力）
   smoke_test.py          对实测夹具跑基线，验证可复现
   test_solver.py         单元测试
   test_child_nutrition.py  儿童模块测试
   test_store_and_campaign.py  门店/券/活动模块测试
+  test_precheck.py       预检与钠账本测试
 tests/fixtures/          5 份 MCP 实测抓取数据
 references/data-notes.md 全部实测踩坑记录
 ```
