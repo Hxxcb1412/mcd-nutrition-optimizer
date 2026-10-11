@@ -15,7 +15,8 @@
 
 | 页面 | 内容 |
 |---|---|
-| [👶 儿童营养](https://hxxcb1412.github.io/mcd-nutrition-optimizer/child-nutrition.html) | 按年龄三段给出可行组合，并报告菜单缺口 |
+| [👶 儿童营养（可交互）](https://hxxcb1412.github.io/mcd-nutrition-optimizer/child-interactive.html) | **拖动滑块**看 3-17 岁各年龄段组合，15 档全部实时计算 |
+| [📋 儿童营养（静态）](https://hxxcb1412.github.io/mcd-nutrition-optimizer/child-nutrition.html) | 单个年龄的完整视图 + 阈值对照表 |
 | [📊 数据缺口报告](https://hxxcb1412.github.io/mcd-nutrition-optimizer/data-gap-report.html) | 活动新品 vs 营养表覆盖，0% 收录率的实测依据 |
 | [🍟 完整演示](https://hxxcb1412.github.io/mcd-nutrition-optimizer/demo.html) | 四个场景 + 三个被修掉的真实 bug |
 
@@ -91,6 +92,27 @@
 python scripts/smoke_test.py        # 24 项，README 数字均可复现
 python scripts/test_precheck.py     # 58 项，预检与钠账本
 ```
+
+---
+
+## 👶 拖一下滑块，看你家孩子能吃什么
+
+**→ [打开交互页](https://hxxcb1412.github.io/mcd-nutrition-optimizer/child-interactive.html)**（浏览器直接打开，不需要 Token）
+
+![儿童营养交互页](docs/images/child-interactive.png)
+
+3-17 岁共 15 档，**每档的组合都由求解器现场算出**，不是预先写死的文案。
+拖动滑块能看到热量、钠、脂肪三条进度条与该年龄段的阈值上限对比——
+一眼看出哪个方案超标、超多少。
+
+**阈值说明**：营养数值来自麦当劳官方实测；年龄阈值来自《中国居民膳食指南》
+通用人群参考值，**两者都不是医疗意见**。
+
+**三条额外过滤**（成人场景不需要）：
+
+1. 组合必须含主食或蛋白类——不加会算出「可乐 + 纯牛奶」三样饮品
+2. 正餐类数量必须多于甜品——不加会把奶冻推荐成儿童正餐主体
+3. 饮品不超过 1 个
 
 ---
 
