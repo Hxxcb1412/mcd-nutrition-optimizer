@@ -194,39 +194,37 @@ class OrderGateway:
             )
         return GateCheck("方案完整性", GateResult.PASS)
 
-    def gate_daily_limit(self) -> GateCheck:
+    def gate_daily_limit(self, quoted_price_fen: int = 0) -> GateCheck:
         """闸门三：每日次数与金额上限。
 
-        已执行过的订单不计入限额判断——那些订单是过去的事实，
-        不该让当日剩余额度变为负数。历史消耗在每日上限为 0 时才生效
-        （用于测试中构造超额场景）。
+        `quoted_price_fen` 是本单金额（由 calculate-price 实算）。
+        判定看「已花 + 本单」而非只看已花——否则单笔金额就能击穿
+        每日上限：第一单花掉全部额度仍会被放行，上限形同虚设。
+
+        `execute()` 重检时传入凭据记录的金额，与 preview 保持同一口径。
         """
-        executed_today = 0
-        executed_amount = 0
-        if self._daily_count == 0 and self._executed:
-            # 构造函数预置了执行记录但未同步计数，按已完成处理。
-            executed_today = self._daily_count
-            executed_amount = self._daily_amount_fen
-
-        remaining_count = self.daily_limit - executed_today
-        remaining_amount = self.daily_amount_limit_fen - executed_amount
-
+        remaining_count = self.daily_limit - self._daily_count
         if remaining_count <= 0:
             return GateCheck(
                 "每日上限",
                 GateResult.BLOCKED,
                 f"今日下单次数已达上限 {self.daily_limit} 次",
             )
-        if remaining_amount <= 0:
+
+        projected = self._daily_amount_fen + max(0, quoted_price_fen)
+        if projected > self.daily_amount_limit_fen:
             return GateCheck(
                 "每日上限",
                 GateResult.BLOCKED,
-                f"今日下单金额已达上限 {self.daily_amount_limit_fen / 100:.2f} 元",
+                f"本单 ¥{quoted_price_fen / 100:.2f} 加上今日已花"
+                f" ¥{self._daily_amount_fen / 100:.2f}，"
+                f"将超过每日上限 ¥{self.daily_amount_limit_fen / 100:.2f}",
             )
         return GateCheck(
             "每日上限",
             GateResult.PASS,
-            f"剩余额度 {remaining_count} 次 / {remaining_amount / 100:.2f} 元",
+            f"剩余额度 {remaining_count} 次 / "
+            f"{(self.daily_amount_limit_fen - self._daily_amount_fen) / 100:.2f} 元",
         )
 
     def gate_duplicate(self, plan: OrderPlan) -> GateCheck:
@@ -262,7 +260,7 @@ class OrderGateway:
         gates = [
             self.gate_env_flag(),
             self.gate_plan_valid(plan),
-            self.gate_daily_limit(),
+            self.gate_daily_limit(quoted_price_fen),
             self.gate_duplicate(plan),
         ]
 
@@ -311,7 +309,7 @@ class OrderGateway:
         gates = [
             self.gate_env_flag(),
             self.gate_plan_valid(plan),
-            self.gate_daily_limit(),
+            self.gate_daily_limit(confirmation.quoted_price_fen),
             self.gate_duplicate(plan),
         ]
         failed = [g for g in gates if g.result is GateResult.BLOCKED]
