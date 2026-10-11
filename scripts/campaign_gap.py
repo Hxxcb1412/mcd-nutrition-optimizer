@@ -28,9 +28,13 @@
 from __future__ import annotations
 
 import re
+import sys
 from dataclasses import dataclass, field
+from pathlib import Path
 
 from nutrition_solver import NutritionItem
+
+FIXTURES = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
 
 # 从活动文案里定位餐品名的候选词。
 # 这些是实测活动中反复出现的核心词，覆盖汉堡、炸物、饮品、甜品几类。
@@ -193,3 +197,50 @@ def render_gap_summary(
     add("")
     add("=" * 58)
     return "\n".join(lines)
+
+def main() -> int:
+    """命令行入口。
+
+    用实测活动数据跑一次交叉分析，任何人都能验证「活动推的新品
+    营养收录率为 0%」这个结论，不需要连 MCP。
+    """
+    import argparse
+    import json
+
+    from combo_resolver import build_nutrition_index
+
+    parser = argparse.ArgumentParser(description="活动新品与营养表缺口分析")
+    parser.add_argument(
+        "--campaigns",
+        type=Path,
+        default=FIXTURES / "campaigns.json",
+        help="活动数据 JSON",
+    )
+    parser.add_argument(
+        "--nutrition",
+        type=Path,
+        default=FIXTURES / "nutrition.json",
+        help="营养表数据",
+    )
+    args = parser.parse_args()
+
+    for path in (args.campaigns, args.nutrition):
+        if not path.exists():
+            print(f"找不到文件：{path}", file=sys.stderr)
+            return 1
+
+    nutrition = json.loads(args.nutrition.read_text(encoding="utf-8"))
+    index, _ = build_nutrition_index(
+        [NutritionItem.from_dict(i) for i in nutrition["items"]]
+    )
+    campaigns = json.loads(args.campaigns.read_text(encoding="utf-8"))
+
+    analyses = [
+        analyze(c["title"], c["body"], index) for c in campaigns["campaigns"]
+    ]
+    print(render_gap_summary(analyses, index))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

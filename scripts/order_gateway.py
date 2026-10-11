@@ -32,7 +32,10 @@ import json
 import os
 import time
 from dataclasses import dataclass, field
+from pathlib import Path
 from enum import Enum
+
+FIXTURES = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
 
 # 默认关闭下单。要开启需显式设置此环境变量。
 ORDERING_ENV_FLAG = "MCD_ENABLE_ORDERING"
@@ -335,3 +338,87 @@ def render_gates(gates: list[GateCheck]) -> str:
         suffix = f" —— {gate.reason}" if gate.reason else ""
         lines.append(f"[{mark}] {gate.name}{suffix}")
     return "\n".join(lines)
+
+def main() -> int:
+    """命令行入口。
+
+    演示安全网关的判定流程。**本命令永远不会下单**——
+    它只跑`preview()` 生成凭据并展示四道闸的结果，
+    真正的 `create-order` 必须由用户在确认价格后自己发起。
+
+    默认状态（未设MCD_ENABLE_ORDERING）下第一道闸就会拦截，
+    这正是设计意图：不给开关就不下单。
+    """
+    import argparse
+    import os
+
+    parser = argparse.ArgumentParser(
+        description="下单安全网关演示（只做判定，绝不下单）"
+    )
+    parser.add_argument("--store", default="1950526", help="门店编码")
+    parser.add_argument(
+        "--product", default="9900005466", help="商品编码，默认巨无霸三件套"
+    )
+    parser.add_argument("--name", default="巨无霸三件套", help="商品名")
+    parser.add_argument("--quantity", type=int, default=1, help="数量")
+    parser.add_argument(
+        "--price", type=int, default=94900, help="实算应付金额（分），默认 949.00"
+    )
+    parser.add_argument(
+        "--mode",
+        choices=("到店自取", "麦乐送", "得来速"),
+        default="到店自取",
+        help="取餐方式",
+    )
+    args = parser.parse_args()
+
+    be_type = {"到店自取": 1, "麦乐送": 2, "得来速": 5}[args.mode]
+    plan = OrderPlan(
+        store_code=args.store,
+        order_type=1 if args.mode != "麦乐送" else 2,
+        be_type=be_type,
+        items=[
+            {
+                "productCode": args.product,
+                "quantity": args.quantity,
+                "name": args.name,
+            }
+        ],
+        address_id="TEST-ADDR" if args.mode == "麦乐送" else "",
+        be_code="TEST-BE" if be_type in (2, 5) else "",
+    )
+
+    gateway = OrderGateway()
+    print("=" * 58)
+    print("下单安全网关（只做判定，本命令不下单）")
+    print("=" * 58)
+    print(f"方案：{plan.describe()}")
+    print(f"实算金额：¥{args.price / 100:.2f}")
+    print("")
+    print("【四道安全闸】")
+    confirmation, gates = gateway.preview(plan, args.price)
+    print(render_gates(gates))
+    print("")
+
+    if confirmation is None:
+        print("【结论】预校验未通过，不予放行。")
+        if os.environ.get(ORDERING_ENV_FLAG) != "true":
+            print("")
+            print(f"当前未设置 {ORDERING_ENV_FLAG}=true，这是默认且正确的行为。")
+            print("设置该变量只解除第一道闸；真实下单仍需用户在确认价格后自行发起。")
+        print("")
+        print("=" * 58)
+        return 1
+
+    print("【结论】四道闸全部通过，已生成确认凭据。")
+    print(f"凭据号：{confirmation.confirmation_id}")
+    print(f"有效期：{ORDERING_CONFIRMATION_TTL // 60} 分钟")
+    print("")
+    print("凭据本身不会下单。真实下单需调用方在用户确认价格后调 create-order。")
+    print("")
+    print("=" * 58)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

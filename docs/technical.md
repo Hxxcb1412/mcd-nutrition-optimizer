@@ -69,6 +69,7 @@ docs/
 scripts/
   parse_nutrition.py     TOON 格式解析（官方返回非标准 JSON）
   item_profile.py        菜品画像：类别判定与正餐主体识别
+  preference.py          口语偏好到数值约束的翻译档位
   nutrition_solver.py    多目标求解器，正餐优先 + 钠升序
   combo_resolver.py      套餐拆解与子项营养匹配
   child_nutrition.py     儿童按年龄分段求解 + 缺口报告
@@ -82,6 +83,8 @@ scripts/
   smoke_test.py          对实测夹具跑基线，验证可复现
   test_solver.py         单元测试
   test_item_profile.py   菜品画像测试
+  test_preference.py     翻译档位测试
+  test_order_gateway.py  下单安全网关测试
   test_child_nutrition.py  儿童模块测试
   test_store_and_campaign.py  门店/券/活动模块测试
   test_precheck.py       预检与钠账本测试
@@ -114,6 +117,8 @@ references/data-notes.md 全部实测踩坑记录
 
 ```bash
 python scripts/test_item_profile.py       # 菜品画像 38 项
+python scripts/test_preference.py         # 翻译档位 60 项
+python scripts/test_order_gateway.py     # 下单网关 100 项
 python scripts/test_solver.py              # 单元测试 19 项
 python scripts/test_child_nutrition.py     # 儿童模块 113 项
 python scripts/test_store_and_campaign.py  # 门店/券/活动 38 项
@@ -124,7 +129,7 @@ python scripts/smoke_test.py               # 真实数据基线 24 项
 python scripts/coverage_report.py          # 覆盖率体检
 ```
 
-共 315 项断言，全部不需要 MCP 连接，直接读 `tests/fixtures/` 下的实测数据。
+共 475 项断言，全部不需要 MCP 连接，直接读 `tests/fixtures/` 下的实测数据。
 其中交互页测试需要 Node.js——它实跑页面里的渲染函数，HTML 结构对但
 JS 逻辑错是肉眼看不出来的。
 

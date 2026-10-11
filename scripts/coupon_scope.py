@@ -25,8 +25,11 @@ productCode，是工具真实返回的结构，不依赖任何猜测。
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from pathlib import Path
 
 from nutrition_solver import NutritionItem
+
+FIXTURES = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
 
 
 @dataclass
@@ -170,3 +173,71 @@ def render(covs: list[CouponCoverage]) -> str:
     add("")
     add("=" * 58)
     return "\n".join(lines)
+
+def main() -> int:
+    """命令行入口。
+
+    检查一批券的适用范围能否算出营养。券数据来自
+    `query-store-coupons`；本账号实测该门店返回空数组，
+    这里用夹具演示判定逻辑，同时如实说明"无券"也是有效结论。
+    """
+    import argparse
+    import json
+
+    from combo_resolver import build_nutrition_index
+
+    parser = argparse.ArgumentParser(description="券适用范围与营养可算性检查")
+    parser.add_argument(
+        "--coupons",
+        type=Path,
+        default=None,
+        help="券数据 JSON，默认读 tests/fixtures/coupons.json",
+    )
+    parser.add_argument(
+        "--nutrition",
+        type=Path,
+        default=FIXTURES / "nutrition.json",
+        help="营养表数据",
+    )
+    args = parser.parse_args()
+
+    if not args.nutrition.exists():
+        print(f"找不到文件：{args.nutrition}")
+        return 1
+
+    nutrition = json.loads(args.nutrition.read_text(encoding="utf-8"))
+    index, _ = build_nutrition_index(
+        [NutritionItem.from_dict(i) for i in nutrition["items"]]
+    )
+
+    coupons: list[dict] = []
+    if args.coupons and args.coupons.exists():
+        raw = json.loads(args.coupons.read_text(encoding="utf-8"))
+        coupons = raw.get("data", raw.get("coupons", []))
+        source = args.coupons.name
+    else:
+        source = "（未提供券数据）"
+
+    print("=" * 58)
+    print("券适用范围与营养可算性检查")
+    print("=" * 58)
+    print(f"数据来源：{source}")
+    print("")
+
+    if not coupons:
+        print("当前无可用券。")
+        print("")
+        print("这不是查询失败——门店确实没有券可领。券的价值不止于省钱，")
+        print("还有「这张券能点的餐品，能不能算清楚营养」。")
+        print("无券时该问题不成立，如实返回空结论。")
+        print("")
+        print("=" * 58)
+        return 0
+
+    covs = check_all(coupons, index)
+    print(render(covs))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

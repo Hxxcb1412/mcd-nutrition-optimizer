@@ -15,6 +15,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, time
+from pathlib import Path
+
+FIXTURES = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
 
 
 @dataclass
@@ -174,3 +177,74 @@ def render_selection(
     add("")
     add("=" * 58)
     return "\n".join(lines)
+
+
+def main() -> int:
+    """命令行入口。
+
+    用实测夹具跑一次可购性判断，让评审无需连 MCP 就能验证
+    「凌晨 2 点businessStatus 为 true 但实际未营业」这个结论。
+    """
+    import argparse
+    import json
+    import sys
+    from datetime import datetime
+    from pathlib import Path
+
+    parser = argparse.ArgumentParser(description="门店可购性判断")
+    parser.add_argument(
+        "--at",
+        default=None,
+        help="判断时刻，格式 YYYY-MM-DD HH:MM，默认取当前时间",
+    )
+    parser.add_argument(
+        "--max-distance",
+        type=int,
+        default=None,
+        help="距离上限（米），超出不考虑",
+    )
+    parser.add_argument(
+        "--stores",
+        type=Path,
+        default=FIXTURES / "stores.json",
+        help="门店数据 JSON",
+    )
+    args = parser.parse_args()
+
+    if not args.stores.exists():
+        print(f"找不到文件：{args.stores}", file=sys.stderr)
+        return 1
+
+    data = json.loads(args.stores.read_text(encoding="utf-8"))
+    stores = [
+        Store(
+            store_code=s["storeCode"],
+            store_name=s["storeName"],
+            address=s["address"],
+            distance_m=s["distance"],
+            business_status=s["businessStatus"],
+            business_start=s["businessStartTime"],
+            business_end=s["businessEndTime"],
+            be_code=s.get("beCode", ""),
+            supports_reservation=s.get("reservation", False),
+        )
+        for s in data["stores"]
+    ]
+
+    if args.at:
+        try:
+            now = datetime.strptime(args.at, "%Y-%m-%d %H:%M")
+        except ValueError:
+            print('时刻格式应为 "YYYY-MM-DD HH:MM"，例如 "2026-10-11 02:00"',
+                  file=sys.stderr)
+            return 1
+    else:
+        now = datetime.now()
+
+    nearest, checked = find_nearest_open(stores, now, args.max_distance)
+    print(render_selection(nearest, checked, now))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -32,10 +32,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from pathlib import Path
 
 from combo_resolver import build_nutrition_index
 from item_profile import category_of
 from nutrition_solver import NutritionItem
+
+FIXTURES = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
 
 # 预检结论等级
 class Confidence:
@@ -302,3 +305,61 @@ def render(result: PrecheckResult) -> str:
 
     add("=" * 58)
     return "\n".join(lines)
+
+def main() -> int:
+    """命令行入口。
+
+    对一份方案做下单前预检：能算的算，算不出的明说，
+    且不输出会低估热量的部分和。
+    """
+    import argparse
+    import json
+
+    parser = argparse.ArgumentParser(description="下单前数据可信度预检")
+    parser.add_argument(
+        "items",
+        nargs="+",
+        help="方案里的餐品名，如：中薯条 可乐中杯 巨无霸",
+    )
+    parser.add_argument(
+        "--qty",
+        nargs="*",
+        default=[],
+        metavar="名称=数量",
+        help="指定数量，如 --qty 中薯条=2",
+    )
+    parser.add_argument(
+        "--nutrition",
+        type=Path,
+        default=FIXTURES / "nutrition.json",
+        help="营养表数据",
+    )
+    args = parser.parse_args()
+
+    if not args.nutrition.exists():
+        print(f"找不到文件：{args.nutrition}")
+        return 1
+
+    quantities: dict[str, int] = {}
+    for pair in args.qty:
+        if "=" not in pair:
+            print(f'数量格式应为 "名称=数量"，收到：{pair}')
+            return 1
+        name, _, raw = pair.partition("=")
+        try:
+            quantities[name.strip()] = int(raw)
+        except ValueError:
+            print(f"数量不是整数：{raw}")
+            return 1
+
+    data = json.loads(args.nutrition.read_text(encoding="utf-8"))
+    index = build_full_index([NutritionItem.from_dict(i) for i in data["items"]])
+
+    result = precheck(args.items, index, quantities or None)
+    print(render(result))
+    # 结论不可信时用退出码 1 表示，方便脚本判断
+    return 0 if result.confidence == Confidence.FULL else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

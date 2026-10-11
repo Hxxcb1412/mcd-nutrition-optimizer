@@ -31,8 +31,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from pathlib import Path
 
 from nutrition_solver import NutritionItem
+
+FIXTURES = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
 
 # 通用膳食参考值，非麦当劳官方
 DEFAULT_SODIUM_LIMIT_MG = 2000.0
@@ -192,3 +195,62 @@ def render(ledger: SodiumLedger) -> str:
     add("")
     add("=" * 58)
     return "\n".join(lines)
+
+def main() -> int:
+    """命令行入口。
+
+    用实测营养数据演示钠账本：把一个真实套餐拆成几笔记进去，
+    看累计值与参考上限的关系。参考上限是通用膳食值，非麦当劳官方。
+    """
+    import argparse
+    import json
+
+    parser = argparse.ArgumentParser(description="钠累计账本")
+    parser.add_argument(
+        "--nutrition",
+        type=Path,
+        default=FIXTURES / "nutrition.json",
+        help="营养表数据",
+    )
+    parser.add_argument(
+        "--limit",
+        type=float,
+        default=DEFAULT_SODIUM_LIMIT_MG,
+        help=f"每日参考上限（mg），默认 {DEFAULT_SODIUM_LIMIT_MG:.0f}",
+    )
+    parser.add_argument(
+        "--items",
+        nargs="+",
+        default=["巨无霸", "中薯条", "可乐中杯"],
+        help="依次记入的餐品名，默认巨无霸三件套的三项",
+    )
+    args = parser.parse_args()
+
+    if not args.nutrition.exists():
+        print(f"找不到文件：{args.nutrition}")
+        return 1
+
+    data = json.loads(args.nutrition.read_text(encoding="utf-8"))
+    index = {i["productName"]: NutritionItem.from_dict(i) for i in data["items"]}
+
+    ledger = SodiumLedger(limit_mg=args.limit)
+    missing: list[str] = []
+    for name in args.items:
+        item = index.get(name)
+        if item is None or not item.nutrition_complete:
+            missing.append(name)
+            continue
+        ledger.add_from_items(name, [item])
+    print(render(ledger))
+
+    if missing:
+        print()
+        print("以下餐品无法计入（营养表未收录或为占位记录）：")
+        for name in missing:
+            print(f"  {name}")
+        print("这不是工具故障，是数据现状——如实列出而不估算。")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -9,7 +9,7 @@
 
 🌐 **[在线演示（免安装，浏览器直接打开）→](https://hxxcb1412.github.io/mcd-nutrition-optimizer/)**
 
-[![Star](https://img.shields.io/badge/star-%E7%82%B9%E8%AF%B7%E6%94%AF%E6%8C%81-yellow?style=for-the-badge)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer) [![Live Demo](https://img.shields.io/badge/demo-online-brightgreen)](https://hxxcb1412.github.io/mcd-nutrition-optimizer/) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer/blob/main/LICENSE) [![Tests](https://img.shields.io/badge/tests-315%20passed-brightgreen)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer)
+[![Star](https://img.shields.io/badge/star-%E7%82%B9%E8%AF%B7%E6%94%AF%E6%8C%81-yellow?style=for-the-badge)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer) [![Live Demo](https://img.shields.io/badge/demo-online-brightgreen)](https://hxxcb1412.github.io/mcd-nutrition-optimizer/) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer/blob/main/LICENSE) [![Tests](https://img.shields.io/badge/tests-475%20passed-brightgreen)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer)
 
 **三个页面，浏览器直接打开，无需安装、无需 Token：**
 
@@ -50,7 +50,7 @@
 | **3-17 岁孩子的家长** | 按年龄段的可行组合 + 三档阈值对照 + 菜单缺口报告（数据实测，标注出处） |
 | **在控钠 / 控卡的人** | 说「想吃得清淡点」就行，它翻译成「钠 ≤ 500mg」再算组合 |
 | **担心 AI 乱说的��** | 下单前先告诉你哪些结论算不出来；部分可信时**拒绝输出部分和** |
-| **想复现每个数字的人** | 315 项断言跑一遍，全用官方实测数据，不需要 Token |
+| **想复现每个数字的人** | 475 项断言跑一遍，全用官方实测数据，不需要 Token |
 
 **不适合**：想让它直接下单领券的（这个 Skill 只读，不碰账户），
 以及需要「减脂食谱推荐」的（它只算麦当劳，菜单本身就是高钠设计）。
@@ -211,7 +211,7 @@ python scripts/test_solver.py         # 19 项
 python scripts/coverage_report.py     # 覆盖率体检
 ```
 
-共 315 项断言，全部不需要 MCP 连接，直接读 `tests/fixtures/` 下的实测数据。
+共 475 项断言，全部不需要 MCP 连接，直接读 `tests/fixtures/` 下的实测数据。
 
 想重新抓一遍数据？接口形态与已知陷阱见 [references/data-notes.md](references/data-notes.md)，
 算法设计与实测踩坑见 [docs/technical.md](docs/technical.md)。
