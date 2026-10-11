@@ -32,3 +32,7 @@ tests/fixtures/_raw/
 # 本地临时输出
 *.log
 .cache/
+
+# 本地宣传物料，不进仓库
+宣传文案-朋友圈.md
+*.docx

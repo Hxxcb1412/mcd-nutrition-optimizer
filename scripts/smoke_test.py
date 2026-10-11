@@ -16,11 +16,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from combo_resolver import build_nutrition_index, summarize_combo  # noqa: E402
+from item_profile import category_of  # noqa: E402
 from nutrition_solver import (  # noqa: E402
     Constraint,
     NutritionItem,
     Solver,
-    _category_of,
 )
 
 FIXTURES = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
@@ -165,7 +165,7 @@ def test_solver_baseline() -> None:
         check("高蛋白场景首解钠", round(combo.total_sodium), 438)
         check(
             "高蛋白首解含蛋白类餐品",
-            any(_category_of(i.product_name) == "蛋白" for i in combo.items),
+            any(category_of(i.product_name) == "蛋白" for i in combo.items),
             True,
         )
     else:

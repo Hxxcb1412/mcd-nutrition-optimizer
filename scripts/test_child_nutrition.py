@@ -23,7 +23,8 @@ from child_nutrition import (  # noqa: E402
     resolve_age_band,
     solve_for_child,
 )
-from nutrition_solver import NutritionItem, _category_of  # noqa: E402
+from item_profile import category_of  # noqa: E402
+from nutrition_solver import NutritionItem  # noqa: E402
 
 FIXTURES = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
 
@@ -95,7 +96,7 @@ def test_child_no_beverage_only() -> None:
             print(f"  SKIP  {age} 岁无解，跳过")
             continue
         for combo in combos:
-            categories = [_category_of(i.product_name) for i in combo.items]
+            categories = [category_of(i.product_name) for i in combo.items]
             has_staple = any(
                 c in ("主食", "蛋白") for c in categories
             )
@@ -171,7 +172,7 @@ def test_dessert_not_main_dish() -> None:
         if not combos:
             continue
         for combo in combos:
-            cats = [_category_of(i.product_name) for i in combo.items]
+            cats = [category_of(i.product_name) for i in combo.items]
             mains = cats.count("主食") + cats.count("蛋白")
             desserts = cats.count("甜品")
             check(

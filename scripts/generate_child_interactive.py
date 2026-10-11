@@ -23,7 +23,8 @@ from child_nutrition import (  # noqa: E402
     detect_gaps,
     solve_for_child,
 )
-from nutrition_solver import NutritionItem, _category_of  # noqa: E402
+from item_profile import category_of  # noqa: E402
+from nutrition_solver import NutritionItem  # noqa: E402
 
 FIXTURES = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
 OUTPUT = Path(__file__).resolve().parent.parent / "docs" / "child-interactive.html"
@@ -267,7 +268,7 @@ def main() -> int:
             "combos": [
                 {
                     "names": [i.product_name for i in c.items],
-                    "cats": [_category_of(i.product_name) for i in c.items],
+                    "cats": [category_of(i.product_name) for i in c.items],
                     "kcal": round(c.total_kcal),
                     "protein": round(c.total_protein),
                     "sodium": round(c.total_sodium),

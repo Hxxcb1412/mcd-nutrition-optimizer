@@ -17,6 +17,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+from item_profile import category_of
+from item_profile import has_meal_component as _has_meal_component_by_name
+
 # 能量字段：API 同时给 kJ 和 kcal，界面展示用 kcal
 NUTRIENT_FIELDS = (
     "energyKcal",
@@ -302,39 +305,13 @@ def _meets(combo: Combination, c: Constraint) -> bool:
     return True
 
 
-# 餐品类别，按实测营养表名称归类。求解时用于保证组合的结构合理。
-#
-# 顺序即优先级：先匹配到的类别生效，所以奶品/饮品必须排在"蛋白"之前。
-# 反例（实测踩过）：「纯牛奶」含"牛"、「热浓浓抹茶牛奶」含"蛋"（浓**蛋**绿），
-# 若"蛋白"规则先命中，纯牛奶会被判成蛋白类，于是
-# "可乐大杯 + 纯牛奶"通过了"必须含主食或蛋白"的校验——
-# 给 4 岁孩子推荐汽水加牛奶。奶品与饮品必须优先判定。
-_CATEGORY_RULES: tuple[tuple[str, tuple[str, ...]], ...] = (
-    ("主食", ("麦满分", "汉堡", "堡", "卷", "麦香鱼", "三件套", "四件套", "巨无霸")),
-    ("奶品", ("牛奶", "纯悦", "豆浆", "燕麦", "乳酸")),
-    ("饮品", ("可乐", "雪碧", "红茶", "绿茶", "果汁", "矿泉水", "苏打", "柠",
-             "美汁源", "旋酷", "阳光橙", "苹果片", "黑巧", "怡泉", "伯爵")),
-    ("咖啡", ("咖啡", "美式", "拿铁", "卡布", "摩卡", "焦糖", "阿芙佳朵", "奶铁",
-             "朱古力")),
-    ("甜品", ("派", "新地", "冰淇淋", "旋风", "雪冰", "奶冻", "圣代", "拉明顿",
-             "苹板", "蜜汁", "奶冻款", "爆珠款")),
-    ("配菜", ("薯条", "玉米", "沙拉", "蔬菜", "小食", "拼盘", "薯饼", "油条",
-             "香肠")),
-    ("蛋白", ("鸡", "牛", "猪", "鱼", "虾", "蛋", "肉", "翅", "腿", "支撑Pro")),
-)
-
-
-def _category_of(name: str) -> str:
-    """按名称关键词判定餐品类别，未命中返回空串。"""
-    for category, keywords in _CATEGORY_RULES:
-        if any(k in name for k in keywords):
-            return category
-    return ""
-
-
 def _has_meal_component(items: list[NutritionItem]) -> bool:
-    """组合里是否含主食或蛋白类餐品，即是否"像一餐"。"""
-    return any(_category_of(i.product_name) in ("主食", "蛋白") for i in items)
+    """组合里是否含主食或蛋白类餐品，即是否"像一餐"。
+
+    抽离到 item_profile 的是「按名称判定」的能力，这里保留对象版薄封装，
+    因为求解路径传的始终是 NutritionItem 而非名称。
+    """
+    return _has_meal_component_by_name([i.product_name for i in items])
 
 
 def _has_category_diversity(combo: Combination) -> bool:
@@ -355,7 +332,7 @@ def _has_category_diversity(combo: Combination) -> bool:
     if len(names) <= 1:
         return True
 
-    categories = [_category_of(n) for n in names]
+    categories = [category_of(n) for n in names]
 
     if categories.count("饮品") > 1:
         return False

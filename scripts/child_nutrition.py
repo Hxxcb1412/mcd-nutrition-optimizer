@@ -27,12 +27,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from item_profile import category_of
 from nutrition_solver import (
     Combination,
     Constraint,
     NutritionItem,
     Solver,
-    _category_of,
 )
 
 # 数据来源标注，所有输出必须携带
@@ -211,7 +211,7 @@ def _filter_child_appropriate(combos: list[Combination]) -> list[Combination]:
     """
     result = []
     for combo in combos:
-        categories = [_category_of(i.product_name) for i in combo.items]
+        categories = [category_of(i.product_name) for i in combo.items]
         mains = categories.count("主食") + categories.count("蛋白")
         if mains == 0:
             continue
@@ -240,7 +240,7 @@ def detect_gaps(profile: ChildProfile, items: list[NutritionItem]) -> list[str]:
         and (i.fat or 0) <= profile.max_fat
     ]
 
-    categories = {_category_of(i.product_name) for i in feasible}
+    categories = {category_of(i.product_name) for i in feasible}
 
     if not feasible:
         gaps.append(

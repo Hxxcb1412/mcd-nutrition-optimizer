@@ -34,7 +34,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from combo_resolver import build_nutrition_index
-from nutrition_solver import NutritionItem, _category_of
+from item_profile import category_of
+from nutrition_solver import NutritionItem
 
 # 预检结论等级
 class Confidence:
@@ -57,7 +58,7 @@ class PrecheckItem:
 
     @property
     def category(self) -> str:
-        return _category_of(self.name)
+        return category_of(self.name)
 
 
 @dataclass

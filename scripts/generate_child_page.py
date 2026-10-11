@@ -26,7 +26,8 @@ from child_nutrition import (  # noqa: E402
     get_profile,
     solve_for_child,
 )
-from nutrition_solver import NutritionItem, _category_of  # noqa: E402
+from item_profile import category_of  # noqa: E402
+from nutrition_solver import NutritionItem  # noqa: E402
 
 FIXTURES = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
 OUTPUT = Path(__file__).resolve().parent.parent / "docs" / "child-nutrition.html"
@@ -53,7 +54,7 @@ def _rows(combos) -> str:
     out = []
     for idx, combo in enumerate(combos, start=1):
         names = " + ".join(
-            f"{CATEGORY_ICON.get(_category_of(i.product_name), '·')} {escape(i.product_name)}"
+            f"{CATEGORY_ICON.get(category_of(i.product_name), '·')} {escape(i.product_name)}"
             for i in combo.items
         )
         out.append(
