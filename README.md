@@ -4,7 +4,19 @@
 
 基于麦当劳官方 MCP 实测数据的营养配餐 Skill。**每个数字都能复现，不估算、不填 0。**
 
-[![Star](https://img.shields.io/badge/star-%E7%82%B9%E8%AF%B7%E6%94%AF%E6%8C%81-yellow?style=for-the-badge)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer/blob/main/LICENSE) [![Tests](https://img.shields.io/badge/tests-204%20passed-brightgreen)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer)
+![在线演示首页](docs/images/index.png)
+
+🌐 **[在线演示（免安装，浏览器直接打开）→](https://hxxcb1412.github.io/mcd-nutrition-optimizer/)**
+
+[![Star](https://img.shields.io/badge/star-%E7%82%B9%E8%AF%B7%E6%94%AF%E6%8C%81-yellow?style=for-the-badge)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer) [![Live Demo](https://img.shields.io/badge/demo-online-brightgreen)](https://hxxcb1412.github.io/mcd-nutrition-optimizer/) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer/blob/main/LICENSE) [![Tests](https://img.shields.io/badge/tests-204%20passed-brightgreen)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer)
+
+**三个页面，浏览器直接打开，无需安装、无需 Token：**
+
+| 页面 | 内容 |
+|---|---|
+| [👶 儿童营养](https://hxxcb1412.github.io/mcd-nutrition-optimizer/child-nutrition.html) | 按年龄三段给出可行组合，并报告菜单缺口 |
+| [📊 数据缺口报告](https://hxxcb1412.github.io/mcd-nutrition-optimizer/data-gap-report.html) | 活动新品 vs 营养表覆盖，0% 收录率的实测依据 |
+| [🍟 完整演示](https://hxxcb1412.github.io/mcd-nutrition-optimizer/demo.html) | 四个场景 + 三个被修掉的真实 bug |
 
 ---
 
@@ -66,7 +78,9 @@
 
 **活动日历每天在推的新品，恰好是营养表覆盖不到的那批。**
 
-**🎬 [打开数据缺口报告 →](docs/data-gap-report.html)**
+**🎬 [打开数据缺口报告 →](https://hxxcb1412.github.io/mcd-nutrition-optimizer/data-gap-report.html)**
+
+![数据缺口报告](docs/images/data-gap-report.png)
 
 实测结果：
 

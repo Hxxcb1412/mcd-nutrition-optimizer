@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麦麦营养求解器 · 在线演示</title>
+<meta name="description" content="基于麦当劳官方 MCP 实测数据的营养配餐 Skill。每个数字都能复现，不估算、不填0。">
+<style>
+:root{--bg:#f7f5f0;--surface:#fff;--ink:#1c1917;--ink2:#57534e;--ink3:#8a8378;
+--line:#e7e2d9;--red:#d9291c;--green:#0f7a4a;--amber:#b45309}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);line-height:1.7;
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;padding:0 20px 64px}
+.wrap{max-width:900px;margin:0 auto}
+header{padding:50px 0 30px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--red);font-weight:700}
+h1{font-size:32px;font-weight:650;letter-spacing:-.02em;margin:10px 0 10px}
+.lede{font-size:17px;color:var(--ink2);max-width:62ch}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0 0}
+.stat{flex:1;min-width:140px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.stat .n{font-size:32px;font-weight:700;font-family:ui-monospace,monospace;letter-spacing:-.03em;line-height:1;color:var(--red)}
+.stat .l{font-size:12px;color:var(--ink3);margin-top:6px;line-height:1.5}
+section{padding:36px 0;border-bottom:1px solid var(--line)}
+h2{font-size:13px;letter-spacing:.1em;color:var(--ink3);font-weight:700;margin-bottom:14px}
+.cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card{display:block;background:var(--surface);border:1px solid var(--line);border-radius:14px;
+padding:20px 22px;text-decoration:none;color:inherit;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--red);transform:translateY(-2px)}
+.card .ic{font-size:26px;margin-bottom:8px}
+.card h3{font-size:17px;font-weight:650;margin-bottom:6px}
+.card p{font-size:14px;color:var(--ink2);margin:0}
+.card .go{font-size:13px;color:var(--red);margin-top:10px;font-weight:600}
+.note{background:#fdf8ee;border:1px solid #f0dcc0;border-radius:10px;padding:15px 17px;font-size:14px;color:var(--ink2)}
+.note strong{color:var(--ink)}
+.cta{display:inline-block;background:var(--red);color:#fff;text-decoration:none;padding:10px 22px;border-radius:8px;font-weight:600;font-size:14px;margin:6px 8px 6px 0}
+.cta.sec{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+footer{padding:30px 0 0;font-size:13px;color:var(--ink3);line-height:1.8}
+footer code{font-family:ui-monospace,monospace;background:#f0ece4;padding:2px 6px;border-radius:4px;font-size:12px}
+@media(max-width:600px){h1{font-size:25px}.stat{min-width:44%}.stat .n{font-size:26px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">mcd-nutrition-optimizer</div>
+  <h1>麦麦营养求解器</h1>
+  <p class="lede">基于麦当劳官方 MCP 实测数据的营养配餐 Skill。<strong>每个数字都能复现，不估算、不填 0。</strong>下面是三个可以直接打开的页面，全部单文件自包含，无需安装。</p>
+  <div class="stats">
+    <div class="stat"><div class="n">21.1%</div><div class="l">门店菜单覆盖率<br>128 个餐品只有 27 个能查到</div></div>
+    <div class="stat"><div class="n">0%</div><div class="l">活动新品营养收录率<br>7 种活动餐品一条未收录</div></div>
+    <div class="stat"><div class="n">8/9</div><div class="l">套餐默认子项命中<br>唯一缺麦炫酷系列</div></div>
+  </div>
+</header>
+
+<section>
+  <h2>三个可玩页面</h2>
+  <div class="cards">
+    <a class="card" href="child-nutrition.html">
+      <div class="ic">👶</div>
+      <h3>儿童营养</h3>
+      <p>按年龄三段（3-6 / 7-12 / 13-17 岁）给出可行组合、三档阈值对照，以及这份菜单满足不了什么。</p>
+      <div class="go">打开 →</div>
+    </a>
+    <a class="card" href="data-gap-report.html">
+      <div class="ic">📊</div>
+      <h3>数据缺口报告</h3>
+      <p>活动日历每天在推的新品，恰好是营养表覆盖不到的那批。含分层覆盖率与活动交叉明细。</p>
+      <div class="go">打开 →</div>
+    </a>
+    <a class="card" href="demo.html">
+      <div class="ic">🍟</div>
+      <h3>完整演示</h3>
+      <p>四个场景：模糊偏好翻译、硬约束求解、儿童分段、门店可购性。含三个被修掉的真实 bug。</p>
+      <div class="go">打开 →</div>
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2>这个项目在做什么</h2>
+  <p style="font-size:15px;color:var(--ink2)">你说「想吃得清淡点」，它把口语偏好翻译成数值约束（钠 ≤ 500mg、热量 ≤ 600kcal），再用官方 156条有营养数据的餐品算出最优组合——<strong>不估算、不用 0 冒充缺失值、命不中就明确说没有</strong>。</p>
+  <div class="note">
+    <strong>为什么强调这些：</strong>官方营养表对门店菜单的覆盖率只有 21.1%。用户看到活动推荐下单，很可能算不出它的营养值。我们选择如实告知，而不是给一个编出来的数字。
+  </div>
+</section>
+
+<section>
+  <h2>在本地验证</h2>
+  <p style="font-size:15px;color:var(--ink2);margin-bottom:12px">全部数字都能复现，不需要 MCP 连接：</p>
+  <div>
+    <a class="cta" href="https://github.com/Hxxcb1412/mcd-nutrition-optimizer">★ Star on GitHub</a>
+    <a class="cta sec" href="https://github.com/Hxxcb1412/mcd-nutrition-optimizer#readme">查看完整 README</a>
+  </div>
+</section>
+
+<footer>
+  全部数据来自 2026-10-09 对 <code>https://mcp.mcd.cn</code> 的实测抓取，测试门店 <code>1950526</code>（北京新东安二号餐厅）。<br>
+  本项目为麦当劳程序员节创意开发大赛参赛作品，非麦当劳官方产品。输出仅供参考，不构成医疗或营养建议；餐品信息与供应状态以麦当劳官方渠道实时结果为准。
+</footer>
+
+</div>
+</body>
+</html>
