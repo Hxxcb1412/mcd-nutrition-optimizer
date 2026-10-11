@@ -119,7 +119,7 @@ python scripts/smoke_test.py               # 真实数据基线 24 项
 python scripts/coverage_report.py          # 覆盖率体检
 ```
 
-共 252 项断言，全部不需要 MCP 连接，直接读 `tests/fixtures/` 下的实测数据。
+共 271 项断言，全部不需要 MCP 连接，直接读 `tests/fixtures/` 下的实测数据。
 
 ---
 

@@ -9,7 +9,7 @@
 
 🌐 **[在线演示（免安装，浏览器直接打开）→](https://hxxcb1412.github.io/mcd-nutrition-optimizer/)**
 
-[![Star](https://img.shields.io/badge/star-%E7%82%B9%E8%AF%B7%E6%94%AF%E6%8C%81-yellow?style=for-the-badge)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer) [![Live Demo](https://img.shields.io/badge/demo-online-brightgreen)](https://hxxcb1412.github.io/mcd-nutrition-optimizer/) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer/blob/main/LICENSE) [![Tests](https://img.shields.io/badge/tests-252%20passed-brightgreen)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer)
+[![Star](https://img.shields.io/badge/star-%E7%82%B9%E8%AF%B7%E6%94%AF%E6%8C%81-yellow?style=for-the-badge)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer) [![Live Demo](https://img.shields.io/badge/demo-online-brightgreen)](https://hxxcb1412.github.io/mcd-nutrition-optimizer/) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer/blob/main/LICENSE) [![Tests](https://img.shields.io/badge/tests-271%20passed-brightgreen)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer)
 
 **三个页面，浏览器直接打开，无需安装、无需 Token：**
 
@@ -50,7 +50,7 @@
 | **3-17 岁孩子的家长** | 按年龄段的可行组合 + 三档阈值对照 + 菜单缺口报告（数据实测，标注出处） |
 | **在控钠 / 控卡的人** | 说「想吃得清淡点」就行，它翻译成「钠 ≤ 500mg」再算组合 |
 | **担心 AI 乱说的��** | 下单前先告诉你哪些结论算不出来；部分可信时**拒绝输出部分和** |
-| **想复现每个数字的人** | 252 项断言跑一遍，全用官方实测数据，不需要 Token |
+| **想复现每个数字的人** | 271 项断言跑一遍，全用官方实测数据，不需要 Token |
 
 **不适合**：想让它直接下单领券的（这个 Skill 只读，不碰账户），
 以及需要「减脂食谱推荐」的（它只算麦当劳，菜单本身就是高钠设计）。
@@ -211,7 +211,7 @@ python scripts/test_solver.py         # 19 项
 python scripts/coverage_report.py     # 覆盖率体检
 ```
 
-共 252 项断言，全部不需要 MCP 连接，直接读 `tests/fixtures/` 下的实测数据。
+共 271 项断言，全部不需要 MCP 连接，直接读 `tests/fixtures/` 下的实测数据。
 
 想重新抓一遍数据？接口形态与已知陷阱见 [references/data-notes.md](references/data-notes.md)，
 算法设计与实测踩坑见 [docs/technical.md](docs/technical.md)。
@@ -262,6 +262,37 @@ python scripts/coverage_report.py     # 覆盖率体检
 关键词表里「纯牛奶」含"牛"、「热浓浓抹茶牛奶」含"蛋"（浓**蛋**绿），
 都先命中了"蛋白"类，于是「可乐 + 纯牛奶」通过了"必须含主食或蛋白"的校验。
 **这个 bug 在成人场景只是荒谬，在儿童场景是严重不当。**
+
+---
+
+## 📌 覆盖率数字会过期，所以它必须可验证
+
+上面写的覆盖率基于 **2026-10-09 抓取的快照**。但门店菜单是实时数据，
+快照必然过期。
+
+所以提供一条命令，任何人都能验证当前值：
+
+```bash
+python scripts/coverage_trend.py
+```
+
+实测两次抓取的对比（同一门店 1950526）：
+
+```
+                    餐品数      可查      覆盖率
+menu.json              128      27      21.1%
+menu_live_2026-10-11   117      25      21.4%
+变化                   -11      -2      +0.3pp
+```
+
+**这个变化本身是个发现**：两天内菜单少了 11 个餐品，能查到营养的只少了 2 个，
+而**新出现的未收录餐品是 0 个**。说明官方营养表的更新节奏远慢于菜单的
+上下架节奏——这不是本工具的问题，是数据源的更新频率限制。
+
+> 顺带说明一个口径问题：真实 `query-meals` 返回的 `data.meals` 是
+> **按 code 去重的字典**，而菜单品类口径有 128 个位置（套餐会同时挂在
+> 多个分类下）。本工具用**门店口径 117**，因为用户关心的是"能不能买到
+> 并算出营养"，不是"菜单版面列了几行"。
 
 ---
 

@@ -70,6 +70,9 @@ class CoverageReport:
         self.spec_hits: dict[str, list[str]] = {}
         self.normalized_hits: dict[str, str] = {}
         self.misses: list[str] = []
+        # 品类口径的出现次数。同一套餐挂在多个分类下会重复计数，
+        # 这个数字与 total（门店口径）不同是正常的，不是数据错误。
+        self.category_slots = 0
 
     @property
     def matched(self) -> int:
@@ -101,11 +104,55 @@ class CoverageReport:
             "specRatePct": round(self.spec_rate, 1),
             "fullRatePct": round(self.full_rate, 1),
             "missingCount": len(self.misses),
+            "categorySlots": self.category_slots,
             "missingItems": sorted(self.misses),
             "ambiguousItems": {
                 k: sorted(v) for k, v in sorted(self.spec_hits.items())
             },
         }
+
+
+def extract_menu_meals(menu: dict) -> tuple[list[str], int]:
+    """从菜单数据里取出餐品名列表。
+
+    支持两种结构——这是实测踩到的坑：
+
+    **真实 query-meals 返回**：`data.meals` 是 `code -> 详情` 的**字典**，
+    且同一个 code 会出现在多个 `categories[]` 里（套餐会同时挂在
+    「巨无霸牛鱼肉堡」和「精选单人餐」下）。
+
+    **早期手工整理的夹具**：`meals` 是**列表**，每项自带 categories 字段。
+
+    返回 (去重后的餐品名, 品类口径的出现次数)。两个口径不同不是数据错误，
+    是菜单的组织方式：用户关心"能不能买到并算出营养"，所以覆盖率用去重口径。
+
+    实测 2026-10-11 同一门店：去重 117 个，品类口径 128 个次。
+    """
+    data = menu.get("data", menu)
+    meals = data.get("meals")
+
+    if isinstance(meals, dict):
+        # 真实 API 结构：字典，按 code 去重
+        names = [
+            detail["name"]
+            for detail in meals.values()
+            if isinstance(detail, dict) and detail.get("name")
+        ]
+        slots = sum(
+            len(cat.get("meals") or [])
+            for cat in (data.get("categories") or [])
+            if isinstance(cat, dict)
+        )
+        return names, slots
+
+    # 手工整理的夹具结构：列表
+    names = [
+        (m.get("name") or "").strip()
+        for m in (meals or [])
+        if isinstance(m, dict)
+    ]
+    slots = len(names)
+    return names, slots
 
 
 def check_menu(
@@ -130,9 +177,11 @@ def check_menu(
         spec_index.setdefault(key, []).append(item)
 
     report = CoverageReport()
+    names, slots = extract_menu_meals(menu)
+    report.category_slots = slots
 
-    for meal in menu.get("meals", []):
-        name = (meal.get("name") or "").strip()
+    for raw_name in names:
+        name = (raw_name or "").strip()
         if not name:
             continue
         report.total += 1
@@ -204,7 +253,12 @@ def _check_combos(
     return result
 
 
-def render(report: CoverageReport, combo: dict, menu_path: Path) -> str:
+def render(
+    report: CoverageReport,
+    combo: dict,
+    menu_path: Path,
+    label: str = "",
+) -> str:
     """渲染成可读报告。"""
     lines: list[str] = []
     add = lines.append
@@ -212,9 +266,14 @@ def render(report: CoverageReport, combo: dict, menu_path: Path) -> str:
     add("=" * 58)
     add("门店营养覆盖率体检")
     add("=" * 58)
-    add(f"菜单来源：{menu_path.name}")
+    add(f"菜单来源：{label or menu_path.name}")
     add("")
     add(f"门店餐品总数：{report.total}")
+    if report.category_slots and report.category_slots != report.total:
+        add(
+            f"（菜单品类口径 {report.category_slots} 个位置——"
+            f"套餐会挂在多个分类下，这是正常的）"
+        )
     add("")
     add("【匹配层级】")
     add(f"  精确同名        {len(report.exact_hits):>4} 个  {report.exact_rate:>5.1f}%")
@@ -279,6 +338,11 @@ def main() -> int:
         action="store_true",
         help="以 JSON 输出，便于程序消费",
     )
+    parser.add_argument(
+        "--label",
+        default="",
+        help="报告中显示的数据来源说明，如抓取日期与门店编码",
+    )
     args = parser.parse_args()
 
     for path in (args.menu, args.nutrition):
@@ -291,9 +355,10 @@ def main() -> int:
     if args.json:
         payload = report.to_dict()
         payload["comboAnalysis"] = combo
+        payload["source"] = args.label or args.menu.name
         print(json.dumps(payload, ensure_ascii=False, indent=2))
     else:
-        print(render(report, combo, args.menu))
+        print(render(report, combo, args.menu, args.label))
 
     return 0
 
