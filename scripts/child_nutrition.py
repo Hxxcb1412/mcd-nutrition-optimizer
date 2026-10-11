@@ -196,16 +196,28 @@ def solve_for_child(
 
 
 def _filter_child_appropriate(combos: list[Combination]) -> list[Combination]:
-    """只保留含主食或蛋白类、且饮品不超过 1 个的组合。
+    """只保留适合儿童正餐的组合。
 
-    复用求解器已有的类别判定，不另立标准。
+    三条规则，复用求解器已有的类别判定，不另立标准：
+
+    1. 必须含主食或蛋白类——饮品凑不出「一顿饭」
+    2. 饮品不超过 1 个——实测不加这条时 4 岁场景会算出
+       「可乐大杯 + 纯牛奶」三样饮品
+    3. **正餐类（主食+蛋白）的数量必须多于甜品**
+       ——不加这条时 7 岁场景首解是「yeyeyeye奶冻款 + 大杯怡泉+C
+       + 麦乐鸡4块」。奶冻能提供热量但不该作为儿童正餐主体，
+       判据是「正餐必须多于甜品」而非「甜品≤1」：单个奶冻搭配
+       一份主食时，两边数量相等，甜品仍是主角。
     """
     result = []
     for combo in combos:
         categories = [_category_of(i.product_name) for i in combo.items]
-        if not any(c in ("主食", "蛋白") for c in categories):
+        mains = categories.count("主食") + categories.count("蛋白")
+        if mains == 0:
             continue
         if categories.count("饮品") > 1:
+            continue
+        if categories.count("甜品") >= mains:
             continue
         result.append(combo)
     return result

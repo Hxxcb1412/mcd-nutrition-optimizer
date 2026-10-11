@@ -163,6 +163,30 @@ def test_all_profiles_have_note() -> None:
         )
 
 
+def test_dessert_not_main_dish() -> None:
+    print("\n[甜品不得作为儿童正餐主体]")
+    items = load()
+    for age in (4, 7, 9, 15):
+        profile, combos, _ = solve_for_child(items, age, limit=6)
+        if not combos:
+            continue
+        for combo in combos:
+            cats = [_category_of(i.product_name) for i in combo.items]
+            mains = cats.count("主食") + cats.count("蛋白")
+            desserts = cats.count("甜品")
+            check(
+                f"{age}岁正餐多于甜品 [{combo.items[0].product_name}]",
+                desserts < mains,
+                True,
+            )
+            # 甜品最多只能当一个配角
+            check(
+                f"{age}岁甜品不超过1个 [{combo.items[0].product_name}]",
+                desserts <= 1,
+                True,
+            )
+
+
 def main() -> int:
     print("=" * 58)
     print("儿童营养模块测试")
@@ -171,6 +195,7 @@ def main() -> int:
     test_profile_source_labeled()
     test_out_of_range()
     test_child_no_beverage_only()
+    test_dessert_not_main_dish()
     test_no_spurious_zero_nutrition()
     test_determinism()
     test_gaps_reported()

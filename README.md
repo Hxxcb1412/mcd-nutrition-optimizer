@@ -1,14 +1,15 @@
 # 麦麦营养求解器
 
-> 「我想吃得清淡点」——不用你懂营养学，它知道换成多少毫克钠。
+> **孩子吃麦当劳，钠超标了吗？**
 
-基于麦当劳官方 MCP 实测数据的营养配餐 Skill。**每个数字都能复现，不估算、不填 0。**
+按年龄给出能吃的组合，并告诉你这份菜单**满足不了什么**。
+基于麦当劳官方 MCP 实测数据，**每个数字都能复现，不估算、不填0。**
 
 ![在线演示首页](docs/images/index.png)
 
 🌐 **[在线演示（免安装，浏览器直接打开）→](https://hxxcb1412.github.io/mcd-nutrition-optimizer/)**
 
-[![Star](https://img.shields.io/badge/star-%E7%82%B9%E8%AF%B7%E6%94%AF%E6%8C%81-yellow?style=for-the-badge)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer) [![Live Demo](https://img.shields.io/badge/demo-online-brightgreen)](https://hxxcb1412.github.io/mcd-nutrition-optimizer/) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer/blob/main/LICENSE) [![Tests](https://img.shields.io/badge/tests-204%20passed-brightgreen)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer)
+[![Star](https://img.shields.io/badge/star-%E7%82%B9%E8%AF%B7%E6%94%AF%E6%8C%81-yellow?style=for-the-badge)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer) [![Live Demo](https://img.shields.io/badge/demo-online-brightgreen)](https://hxxcb1412.github.io/mcd-nutrition-optimizer/) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer/blob/main/LICENSE) [![Tests](https://img.shields.io/badge/tests-252%20passed-brightgreen)](https://github.com/Hxxcb1412/mcd-nutrition-optimizer)
 
 **三个页面，浏览器直接打开，无需安装、无需 Token：**
 
@@ -17,6 +18,79 @@
 | [👶 儿童营养](https://hxxcb1412.github.io/mcd-nutrition-optimizer/child-nutrition.html) | 按年龄三段给出可行组合，并报告菜单缺口 |
 | [📊 数据缺口报告](https://hxxcb1412.github.io/mcd-nutrition-optimizer/data-gap-report.html) | 活动新品 vs 营养表覆盖，0% 收录率的实测依据 |
 | [🍟 完整演示](https://hxxcb1412.github.io/mcd-nutrition-optimizer/demo.html) | 四个场景 + 三个被修掉的真实 bug |
+
+---
+
+## 🧭 30 秒看懂
+
+```
+你：我家 7 岁孩子，吃麦当劳要注意什么？
+
+它：按学龄儿童（7-12 岁）的参考标准：热量 550–750 kcal、
+    钠 ≤ 1000 mg、脂肪 ≤ 25 g。这是通用膳食参考值，
+    不是医疗建议，也不能替代儿科医生的意见。
+
+    ○ 优品豆浆大杯 + ○ 可乐大杯 + ● 麦乐鸡4块
+      596 kcal · 蛋白 18g · 钠 380 mg
+
+    顺便说一件事：实测麦当劳 17% 的餐品钠含量超过 800mg，
+    孩子常吃的汉堡类普遍在 500-1000mg。这是数据事实。
+```
+
+**为什么值得单独做**：家长最容易被「儿童套餐」四个字糊弄过去。
+我们把年龄段阈值、数据来源、以及菜单的缺口都摆在明面上。
+
+---
+
+## 🧑‍🤝‍🧑 谁需要它
+
+| 你是谁 | 它给你什么 |
+|---|---|
+| **3-17 岁孩子的家长** | 按年龄段的可行组合 + 三档阈值对照 + 菜单缺口报告（数据实测，标注出处） |
+| **在控钠 / 控卡的人** | 说「想吃得清淡点」就行，它翻译成「钠 ≤ 500mg」再算组合 |
+| **担心 AI 乱说的��** | 下单前先告诉你哪些结论算不出来；部分可信时**拒绝输出部分和** |
+| **想复现每个数字的人** | 252 项断言跑一遍，全用官方实测数据，不需要 Token |
+
+**不适合**：想让它直接下单领券的（这个 Skill 只读，不碰账户），
+以及需要「减脂食谱推荐」的（它只算麦当劳，菜单本身就是高钠设计）。
+
+---
+
+## 🚀 三步开吃
+
+### 第 1 步 · 先点开看看（不需要装任何东西）
+
+**→ [在线演示首页](https://hxxcb1412.github.io/mcd-nutrition-optimizer/)** 浏览器直接打开。
+
+### 第 2 步 · 想要更准的结果？配一个 Token
+
+从 [open.mcd.cn/mcp](https://open.mcd.cn/mcp) 申请 Token，复制
+`mcp-config.example.json` 为你的 `mcp.json`，把 `<在此填入你的MCP_TOKEN>` 换掉：
+
+```json
+{
+  "mcdServers": {
+    "mcd-mcp": {
+      "type": "streamablehttp",
+      "url": "https://mcp.mcd.cn",
+      "headers": { "Authorization": "Bearer <在此填入你的MCP_TOKEN>" }
+    }
+  }
+}
+```
+
+### 第 3 步 · 装成 Skill，说人话就行
+
+把本目录放进你的 skills 目录（WorkBuddy 为 `~/.workbuddy/skills/`），然后：
+
+> 想吃得清淡点 · 我家 7 岁孩子吃什么 · 巨无霸三件套多少大卡 · 附近现在能买吗
+
+**验证每个数字是真的**：
+
+```bash
+python scripts/smoke_test.py        # 24 项，README 数字均可复现
+python scripts/test_precheck.py     # 58 项，预检与钠账本
+```
 
 ---
 
@@ -49,28 +123,28 @@
 
 ---
 
-## 👶 孩子吃什么，这是给家长的答案
+## 👶 儿童营养：三档阈值 + 菜单缺口
 
 输入年龄，直接看到该年龄段的可行组合、三档阈值对照，以及**这份菜单满足不了什么**。
 
-**🎬 [打开儿童营养页 →](docs/child-nutrition.html)** （浏览器直接打开，不需要 Token）
+**🎬 [打开儿童营养页 →](https://hxxcb1412.github.io/mcd-nutrition-optimizer/child-nutrition.html)**（浏览器直接打开，不需要 Token）
 
-```
-你：我家 7 岁孩子，吃麦当劳要注意什么？
+![儿童营养页](docs/images/child-nutrition.png)
 
-它：按学龄儿童（7-12 岁）的参考标准：热量 550–750 kcal、
-    钠 ≤ 1000 mg、脂肪 ≤ 25 g。这是通用膳食参考值，
-    不是医疗建议，也不能替代儿科医生的意见。
+| 年龄段 | 热量 | 钠 | 脂肪 |
+|---|---|---|---|
+| 学龄前（3-6 岁） | 350–500 kcal | ≤ 800 mg | ≤ 18 g |
+| 学龄儿童（7-12 岁） | 550–750 kcal | ≤ 1000 mg | ≤ 25 g |
+| 青少年（13-17 岁） | 700–950 kcal | ≤ 1500 mg | ≤ 32 g |
 
-    ◆ 大杯玉米杯 + ○ 热奶铁中杯 + ● 麦乐鸡4块
-      562 kcal · 蛋白 10g · 钠 337 mg
+**三条额外要求**（成人场景不需要）：
 
-    顺便说一件事：实测麦当劳 17% 的餐品钠含量超过 800mg，
-    孩子常吃的汉堡类普遍在 500-1000mg。这是数据事实。
-```
-
-**为什么这件事值得单独做**：家长最容易被"儿童套餐"四个字糊弄过去。
-我们把年龄段阈值、数据来源、以及菜单的缺口都摆在明面上。
+1. **组合必须含主食或蛋白类，饮品不超过 1 个。** 不加这道过滤时，
+   4 岁场景会算出「可乐大杯 + 纯牛奶」——数字全对，但不是儿童餐。
+2. **主动报告菜单缺口。** 实测 17% 餐品钠超学龄前上限 800mg，
+   这是数据事实，不粉饰。
+3. **阈值来源必须标注。** 营养数值来自麦当劳实测，年龄阈值来自
+   《中国居民膳食指南》通用参考值——**两者都不是医疗意见**。
 
 ---
 
@@ -95,40 +169,58 @@
 
 ---
 
-## 快速开始
+## 🔬 给爱看细节的同学
+
+想自己跑一遍的话：
 
 ```bash
 git clone https://github.com/Hxxcb1412/mcd-nutrition-optimizer
 cd mcd-nutrition-optimizer
 
 # 三个网页，直接双击打开，零依赖
-open docs/child-nutrition.html      # 儿童营养
-open docs/data-gap-report.html      # 数据缺口报告
-open docs/demo.html                 # 完整演示
+open docs/index.html                  # 在线演示入口
+open docs/child-nutrition.html        # 儿童营养
+open docs/data-gap-report.html        # 数据缺口报告
 
 # 跑测试验证每个数字
-python scripts/smoke_test.py        # 24 项，README 数字均可复现
+python scripts/smoke_test.py         # 24 项，README 数字均可复现
 python scripts/test_precheck.py       # 58 项，预检/账本+边界
-python scripts/test_solver.py       # 19 项
+python scripts/test_solver.py         # 19 项
+python scripts/coverage_report.py     # 覆盖率体检
 ```
 
-配置 MCP 后可接入真实数据（申请 Token：[open.mcd.cn/mcp](https://open.mcd.cn/mcp)）：
+共 252 项断言，全部不需要 MCP 连接，直接读 `tests/fixtures/` 下的实测数据。
 
-```json
-{
-  "mcdServers": {
-    "mcd-mcp": {
-      "type": "streamablehttp",
-      "url": "https://mcp.mcd.cn",
-      "headers": { "Authorization": "Bearer ${MCD_MCP_TOKEN}" }
-    }
-  }
-}
-```
+想重新抓一遍数据？接口形态与已知陷阱见 [references/data-notes.md](references/data-notes.md)，
+算法设计与实测踩坑见 [docs/technical.md](docs/technical.md)。
 
-装成 Skill 后直接说人话：
+---
 
-> 想吃得清淡点 · 500 大卡以内的午餐 · 巨无霸三件套多少大卡 · 我家 7 岁孩子吃什么
+## ❓ 常见问题
+
+**Q：需要 Token 吗？**
+看页面不需要。想让它查你附近的实时门店、跑真实数据求解，才需要 Token
+（[申请地址](https://open.mcd.cn/mcp)）。
+
+**Q：它会替我下单吗？**
+不会。它只调用 7 个只读工具，不下单、不领券、不抽奖、不改地址。
+下单前会用 `calculate-price` 算真实价格给你看，但付款这一步由你自己发起。
+
+**Q：为什么覆盖率只有 21.1%？工具是不是坏了？**
+不是。官方营养表是季度更新的静态快照，门店菜单是实时数据，
+两者之间天然有时间差。`python scripts/coverage_report.py` 可以自己验证。
+
+**Q：儿童阈值是怎么来的？**
+营养数值来自麦当劳官方接口；**年龄阈值来自《中国居民膳食指南》的通用人群参考值，
+不是麦当劳官方数据，也不是医疗建议**。有医生给的建议就用自己的。
+
+**Q：为什么不给「部分和」？**
+漏掉的那一项会让总热量被低估，用户以为这单更健康——那比不给数字更糟。
+所以要么全部能算给总数，要么明确说算不出。
+
+**Q：能用来减肥吗？**
+它只算麦当劳，不给食谱建议。**麦当劳的菜单本身就是高钠设计**
+（实测 17% 餐品钠超800mg），减脂期更该控制频次而不是指望它配餐。
 
 ---
 
@@ -151,20 +243,30 @@ python scripts/test_solver.py       # 19 项
 
 ---
 
-## 我们的立场
+## 数据诚实红线
 
-**不用 0 冒充没有数据。** 遇到营养表没收录的餐品，明确说"没有"，
-而不是估一个数字。遇到套餐子项缺数据，**拒绝输出部分和**——
-强行求和会漏掉那一项，热量明显低估，那比不给数字更糟。
+这四条是这个项目不动的底线。**它们会让输出变难看，但不会让数字变错。**
 
-**不迎合你。** 要求「钠 ≤ 300mg 的午餐」时，我们会告诉你：
-麦当劳没有低钠正餐，蛋白质 ≥5g 的餐品里钠最低的是优品豆浆（32mg），
-再往下全是饮品和奶品。
+**1. 不用 0 冒充没有数据。**
+官方营养表有 4 条记录的热量与蛋白质同时为 0（无糖可乐系列、纯悦）。
+这不是零热量食物，是**官方没收录它们**。遇到就明确说"没有"，不估数字。
 
-**不上手花钱。** 只调用 7 个只读 MCP 工具，不下单不领券不改账户。
+**2. 部分可信时拒绝输出部分和。**
+套餐缺一个子项就明确说缺了什么，不给"已算部分的合计"——
+强行求和会低估总热量，让用户以为这单更健康。
 
-> 想看完整技术细节、接口陷阱、算法设计与全部实测数据？
-> **[→ 技术文档](docs/technical.md)**
+**3. 规格歧义不静默取第一个。**
+菜单写「可乐」，营养表里有中杯/大杯/小杯三条，钠含量不同。
+工具会列出全部候选让你选杯型，而不是随便挑一个报给你。
+
+**4. 不迎合你。**
+要求「钠 ≤ 300mg 的午餐」时，我们会告诉你：
+**麦当劳没有低钠正餐**——蛋白质 ≥5g 的餐品里钠最低的是优品豆浆（32mg），
+再往下全是饮品和奶品，汉堡类普遍 500-1000mg。
+
+**另外：不上手花钱。** 只调用 7 个只读 MCP 工具，不下单不领券不改账户。
+
+> 完整技术细节、接口陷阱、算法设计与全部实测数据 → **[技术文档](docs/technical.md)**
 
 ---
 
